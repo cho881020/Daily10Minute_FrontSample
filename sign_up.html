@@ -1,3 +1,9 @@
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+<script src="/custom_axios.js"></script>
+
 회원가입 화면</br></br>
 
 이메일 : <input id="emailInput" type="text" placeholder="이메일 입력"></input> </br>
@@ -22,8 +28,14 @@
         form.append('password', pw)
         form.append('nick_name', nick)
 
-        
-
+        // 가져온 스크립트에 있는 axiosInstance를 이용해 회원가입 요청 실행
+        axiosInstance.put('/user', form)
+            .then(function (res) {
+                console.log(res)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
 
     })
 
