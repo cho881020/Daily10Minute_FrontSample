@@ -9,9 +9,32 @@
     <body>
         메인화면
 
+        <div id='projectList'>
+
+        </div>
+
         <script>
             // 메인 화면 접속 하자마자 쿠키에 저장된 토큰 확인
             console.log('메인에서의 쿠키 : ', $.cookie('userToken'))
+
+            // POST/PUT은 FormData를 쓰지만
+            // GET은 직접 params로 필요한걸 적자
+
+            axiosInstance.get('/project', {
+                params: {
+                    // project에선 아직 첨부할 자료가 없어서 비워둔다
+                }
+            })
+            .then(function (res) {
+                // 성공시 응답을 로그로 확인
+                console.log(res)
+
+            })
+            .catch(function (error) {
+                // 실패시 error의 응답에 담긴 message를 얼럿으로
+                alert(error.response.data.message)
+            })
+
         </script>
     </body>
 </html>
