@@ -10,7 +10,7 @@
     <body>
         프로젝트 상세 정보 화면
 
-        <img id='projectImg'>
+        <img id='projectImg' style="height: 30%; width: 100%;">
 
         <div id='title'>
 
@@ -23,6 +23,8 @@
         <div id='proofMethod'>
 
         </div>
+
+        <button id='applyButton'>신청하기</button>
         
 
         <script>
@@ -55,6 +57,37 @@
                 alert(error.response.data.message)
             })
 
+        </script>
+
+        <script>
+            // 신청 버튼 눌리면 할 일
+            $('#applyButton').click(function() {
+
+                // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
+                let searchParams = new URLSearchParams(window.location.search)
+                // 주소창에 id가 뭐라고 적혀있는지 찾아서 저장.
+                let projectId = searchParams.get('id')
+
+                // 프로젝트 참여 신청 API 호출
+
+                // post로 보낼때 첨부할 FormData
+                const form = new FormData()
+                form.append('project_id', projectId)
+
+                // /project - POST로 접근
+                axiosInstance.post(`/project`, form)
+                .then(function (res) {
+                    
+                    // 응답 로그 확인
+                    console.log(res)
+
+                })
+                .catch(function (error) {
+                    // 실패시 error의 응답에 담긴 message를 얼럿으로
+                    alert(error.response.data.message)
+                })
+
+            })
         </script>
     </body>
 </html>
