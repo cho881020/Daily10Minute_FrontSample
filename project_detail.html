@@ -27,6 +27,14 @@
 
         <script>
             
+            // 몇번 프로젝트를 보러 온건지 주소창 확인
+            
+            // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
+            let searchParams = new URLSearchParams(window.location.search)
+            // 주소창에 id가 뭐라고 적혀있는지 찾아서 저장.
+            let projectId = searchParams.get('id')
+
+            console.log('프로젝트id : ' , projectId)
 
         </script>
     </body>
