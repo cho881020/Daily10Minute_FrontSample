@@ -7,5 +7,24 @@
 <button id="signUpBtn">회원가입</button>
 
 <script>
-    
+
+    $('#signUpBtn').click(function() {
+
+
+        // 이메일 / 비번 / 닉네임 입력값을 각각의 변수에 저장
+        let email = $('#emailInput').val()
+        let pw = $('#pwInput').val()
+        let nick = $('#nickNameInput').val()
+
+        // 받아낸 값들을 폼데이터에 담아두자. => PUT으로 전송 예정
+        const form = new FormData()
+        form.append('email', email)
+        form.append('password', pw)
+        form.append('nick_name', nick)
+
+        
+
+
+    })
+
 </script>
