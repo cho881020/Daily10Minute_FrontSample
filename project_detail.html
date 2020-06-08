@@ -51,6 +51,9 @@
 
                 $('#projectImg').attr('src', res.data.data.project.img_url)
 
+                // 서버에서 추가로 내려주는 참여인원수 확인
+                console.log('참여 인원 수 : ', res.data.data.project.apply_count)
+
             })
             .catch(function (error) {
                 // 실패시 error의 응답에 담긴 message를 얼럿으로
