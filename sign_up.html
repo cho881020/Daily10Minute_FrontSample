@@ -31,11 +31,16 @@
         // 가져온 스크립트에 있는 axiosInstance를 이용해 회원가입 요청 실행
         axiosInstance.put('/user', form)
             .then(function (res) {
-                // 성공시 처리 필요
-                console.log(res)
+                // 성공시 얼럿 띄우고 로그인화면으로
+                if (res.data.code == 200) {
+                    alert('회원가입 성공')
+                    $(location).attr('href', "login.html")
+                }
+
             })
             .catch(function (error) {
-                console.log(error)
+                // 실패시 error의 응답에 담긴 message를 얼럿으로
+                alert(error.response.data.message)
             })
 
     })
