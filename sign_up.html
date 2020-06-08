@@ -31,6 +31,7 @@
         // 가져온 스크립트에 있는 axiosInstance를 이용해 회원가입 요청 실행
         axiosInstance.put('/user', form)
             .then(function (res) {
+                // 성공시 처리 필요
                 console.log(res)
             })
             .catch(function (error) {
