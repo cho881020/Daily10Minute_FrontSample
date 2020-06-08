@@ -1,0 +1,13 @@
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+
+<script>
+    if ($.cookie('loginUserToken')) {
+        
+    }
+    else {
+        $(location).attr('href', 'login.html');
+    }
+</script>

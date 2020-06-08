@@ -1,0 +1,25 @@
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+로그인화면</br>
+
+<input id="emailInput" type="text" placeholder="이메일 입력"></input> </br>
+<input id="passwordInput" type="text" placeholder="비밀번호 입력"></input> </br>
+
+<button id="loginButton">로그인</button>
+<button id="signUpButton">회원가입</button>
+
+<script>
+    // 회원가입 버튼이 눌렸을때
+
+    $('#signUpButton').click(function() {
+
+        // 회원가입 html파일로 이동
+        $(location).attr('href', 'sign_up.html')
+
+    })
+
+    
+
+</script>
