@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+    </head>
+    <body>
+        메인화면
+
+        <script>
+            // 메인 화면 접속 하자마자 쿠키에 저장된 토큰 확인
+            console.log('메인에서의 쿠키 : ', $.cookie('userToken'))
+        </script>
+    </body>
+</html>
+
