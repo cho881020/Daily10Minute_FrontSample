@@ -12,17 +12,8 @@
         메인화면
 
         <ul id='projectList'>
-            <li>
-                <div>
-                    <img class="projectListItem" src='https://post-phinf.pstatic.net/MjAxOTEyMTFfMjgy/MDAxNTc2MDUwODAxODQ3.qV7kcYtxZZr7ycnGUsmKyj2-eYBThcJbaAf7Xr4uLzAg.T0x40qYIWBL2pXFG51QhCt6N5xSFZVKOZaicP3XGx5Yg.JPEG/image_8240955871576050766062.jpg?type=w1200'> 
-                    테스트
-                </div>
-            </li>
+            
         </ul>
-        <div id='projectList'>
-            
-            
-        </div>
 
         <script>
             // 메인 화면 접속 하자마자 쿠키에 저장된 토큰 확인
@@ -37,8 +28,25 @@
                 }
             })
             .then(function (res) {
-                // 성공시 응답을 로그로 확인
-                console.log(res)
+                
+                // 응답으로 내려오는 프로젝트 목록을 가지고 forEach
+                res.data.data.projects.forEach(project => {
+                    // 프로젝트 하나하나가 project에 담겨있다
+                    console.log(project)
+
+                    // 프로젝트 하나하나를 ul (projectList) 에게 추가.
+                    // img의 src로 프로젝트의 img_url 항목 배치
+                    // 문구로 프로젝트의 title 배치
+                    // <li> 는 간략하게 넣은 샘플
+                    $('#projectList').append(`
+                    <li>
+                        <div>
+                            <img class="projectListItem" src='${project.img_url}'> 
+                            ${project.title}
+                        </div>
+                    </li>
+                    `)
+                });
 
             })
             .catch(function (error) {
