@@ -38,8 +38,10 @@
                     // img의 src로 프로젝트의 img_url 항목 배치
                     // 문구로 프로젝트의 title 배치
                     // <li> 는 간략하게 넣은 샘플
+
+                    // 어떤 프로젝트에 대한 li인지를 project_id 속성을 맘대로 추가해서 적어두고 있다.
                     $('#projectList').append(`
-                    <li>
+                    <li project_id=${project.id}>
                         <div>
                             <img class="projectListItem" src='${project.img_url}'> 
                             ${project.title}
@@ -47,6 +49,15 @@
                     </li>
                     `)
                 });
+
+
+                // li가 모두 추가되면 그들에게 이벤트를 부여
+                $('#projectList li').click(function() {
+
+                    // 눌린 줄 $(this) 의 속성중 project_id에 적힌 값이 뭔지 로그로 출력
+                    console.log($(this).attr('project_id'))
+
+                })
 
             })
             .catch(function (error) {
