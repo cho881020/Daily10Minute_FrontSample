@@ -54,8 +54,13 @@
                 // li가 모두 추가되면 그들에게 이벤트를 부여
                 $('#projectList li').click(function() {
 
-                    // 눌린 줄 $(this) 의 속성중 project_id에 적힌 값이 뭔지 로그로 출력
-                    console.log($(this).attr('project_id'))
+                    // 눌린 줄 $(this) 의 속성중 project_id에 적힌 값을 변수로 저장
+
+                    let projectId = $(this).attr('project_id')
+
+                    // 주소창에 프로젝트id를 덧붙여서 상세화면으로 이동
+
+                    $(location).attr('href', `project_detail.html?id=${projectId}`)
 
                 })
 
