@@ -34,7 +34,26 @@
             // 주소창에 id가 뭐라고 적혀있는지 찾아서 저장.
             let projectId = searchParams.get('id')
 
-            console.log('프로젝트id : ' , projectId)
+            // 프로젝트 상세조회 API 호출 => /project/1  와 같이 주소에 id를 이어붙이자.
+            axiosInstance.get(`/project/${projectId}`, {
+                params: {
+                    // project에선 아직 첨부할 자료가 없어서 비워둔다
+                }
+            })
+            .then(function (res) {
+                
+                // 프로젝트의 정보를 화면에 반영
+                $('#title').text(res.data.data.project.title)
+                $('#description').text(res.data.data.project.description)
+                $('#proofMethod').text(res.data.data.project.proof_method)
+
+                $('#projectImg').attr('src', res.data.data.project.img_url)
+
+            })
+            .catch(function (error) {
+                // 실패시 error의 응답에 담긴 message를 얼럿으로
+                alert(error.response.data.message)
+            })
 
         </script>
     </body>
