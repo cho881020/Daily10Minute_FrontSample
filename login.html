@@ -1,6 +1,8 @@
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+<script src="/custom_axios.js"></script>
 
 로그인화면</br>
 
@@ -11,6 +13,37 @@
 <button id="signUpButton">회원가입</button>
 
 <script>
+
+    // 로그인 버튼이 눌렸을때
+    $('#loginButton').click(function() {
+
+        // 서버에 입력한 이메일/비번으로 로그인 시도
+
+        // 입력한 이메일 / 비번 변수에 저장
+        let email = $('#emailInput').val()
+        let pw = $('#passwordInput').val()
+
+        // 로그인 요청 데이터를 담아둘 FormData 클래스
+        const form = new FormData()
+        form.append('email', email)
+        form.append('password', pw)
+
+        // 커스텀 axios로 실제 로그인 호출
+
+        axiosInstance.post('/user', form)
+            .then(function (res) {
+                
+                console.log(res)
+
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+
+
+
+    })
+
     // 회원가입 버튼이 눌렸을때
 
     $('#signUpButton').click(function() {
