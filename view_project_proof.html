@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+        
+    </head>
+    <body>
+        날짜별 인증 내역 조회 </br>
+
+        인증 확인 날짜 <input id='date' type="date"> 
+
+        <ul>
+            <li>
+                <div>
+                    인증 내용
+                </div>
+            </li>
+        </ul>
+        
+
+        <script>
+            
+            // 몇번 프로젝트를 보러 온건지 주소창 확인
+            
+            // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
+            let searchParams = new URLSearchParams(window.location.search)
+            // 주소창에 project_id가 뭐라고 적혀있는지 찾아서 저장.
+            let projectId = searchParams.get('project_id')
+
+
+            // #date 에 적힌 날짜가 바뀌면
+
+            $('#date').change(function() {
+                let proofDate = $(this).val()
+                console.log(proofDate)
+
+                //  서버에서 해당 날짜로 인증내역 불러오기.
+                // 프로젝트 상세조회 API 호출 => /project/1  와 같이 주소에 id를 이어붙이자.
+                // 인증 목록을 보고싶은 날짜를 파라미터로 추가 : ?proof_date=2020-06-09
+                axiosInstance.get(`/project/${projectId}?proof_date=${proofDate}`, {
+                    params: {
+                        // project에선 아직 첨부할 자료가 없어서 비워둔다
+                    }
+                })
+                .then(function (res) {
+
+                    console.log(res)
+                    
+
+                })
+                .catch(function (error) {
+                    // 실패시 error의 응답에 담긴 message를 얼럿으로
+                    alert(error.response.data.message)
+                })
+
+
+            }) 
+
+        </script>
+
+    </body>
+</html>
+

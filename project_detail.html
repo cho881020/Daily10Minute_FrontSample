@@ -26,6 +26,7 @@
 
         <button id='applyButton'>신청하기</button>
         <button id='proofButton'>인증하기</button>
+        <button id='viewProofButton'>다른 사람들의 인증 내역 보러가기</button>
         
 
         <script>
@@ -69,6 +70,12 @@
             $('#proofButton').click(function() {
                 // 미리 받아둔 프로젝트 id를 들고 인증하기 화면으로 이동
                 $(location).attr('href', `proof_today.html?project_id=${projectId}`)
+            })
+
+            // 인증 내역 보러 가기 버튼 이벤트
+            $('#viewProofButton').click(function() {
+                // 미리 받아둔 프로젝트 id를 가지고 인증내역 보는 화면 이동.
+                $(location).attr('href', `view_project_proof.html?project_id=${projectId}`)
             })
 
         </script>
