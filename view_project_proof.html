@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
         <script src="https://code.jquery.com/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
@@ -48,11 +49,22 @@
                     res.data.data.project.proofs.forEach(proof => {
                         console.log(proof)
 
-                        $('#proofList').append(`<li>
-                                                    <div>
-                                                        ${proof.content}
-                                                    </div>
-                                                </li>`)
+                        if (proof.images.length > 0) {
+                            $('#proofList').append(`<li>
+                                                        <div>
+                                                            <img class="projectListItem" src=${proof.images[0].img_url}>
+                                                            ${proof.content}
+                                                        </div>
+                                                    </li>`)
+                        }
+                        else {
+                            $('#proofList').append(`<li>
+                                                        <div>
+                                                            ${proof.content}
+                                                        </div>
+                                                    </li>`)
+                        }
+                        
                     });
                     
 
