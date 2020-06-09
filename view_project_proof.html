@@ -32,7 +32,6 @@
 
             $('#date').change(function() {
                 let proofDate = $(this).val()
-                console.log(proofDate)
 
                 $('#proofList').empty()
 
@@ -46,10 +45,8 @@
                 })
                 .then(function (res) {
 
-                    console.log(res)
 
                     res.data.data.project.proofs.forEach(proof => {
-                        console.log(proof)
 
                         let count = proof.like_count
                         let buttonTitle = "좋아요"
@@ -64,7 +61,7 @@
                                                             <img class="projectListItem" src=${proof.images[0].img_url}>
                                                             ${proof.content}
                                                             <button class='likeBtn'>${buttonTitle}</button>
-                                                            ${count}개
+                                                            <span class='likeCount'>${count}개</span>
                                                         </div>
                                                     </li>`)
                         }
@@ -73,7 +70,7 @@
                                                         <div>
                                                             ${proof.content}
                                                             <button class='likeBtn'>${buttonTitle}</button>
-                                                            ${count}개
+                                                            <span class='likeCount'>${count}개</span>
                                                         </div>
                                                     </li>`)
                         }
@@ -83,19 +80,40 @@
 
                     $('.likeBtn').click(function() {
                         let proofId = $(this).parents('li').attr('proof_id')
-                        console.log('인증글 ID : ', proofId)
 
                         // 인증글 좋아요에 필요한 데이터를 담아둘 FormData 클래스
                         const form = new FormData()
                         // 인증글 ID만 첨부
                         form.append('proof_id', proofId)
 
-                        // 커스텀 axios로 실제 인증글 좋아요 호출
+                        // 좋아요 버튼을 별개 변수에 저장 => 서버 호출 결과 안에서 사용하려고
+                        let likeBtn = $(this)
 
+                        // 커스텀 axios로 실제 인증글 좋아요 호출
                         axiosInstance.post('/like_proof', form)
                             .then(function (res) {
                                 
+                                // 서버에서 주는 메세지 (좋아요 등록 / 취소 여부) 출력
                                 alert(res.data.message)
+
+
+                                // 변경되어야 할 값들을 체크
+                                // 좋아요 몇개인지?
+                                let count = res.data.data.like.like_count
+
+                                // 좋아요인지 / 좋아요 취소인지
+                                let buttonTitle = "좋아요"
+                                if (res.data.data.like.my_like) {
+                                    buttonTitle = "좋아요 취소"
+                                }
+
+                                // 좋아요 버튼의 문구 변경
+                                likeBtn.text(buttonTitle)
+
+                                // 그 옆의 (형제/사촌) 좋아요 갯수 변경
+                                likeBtn.siblings('.likeCount').text(`${count}개`)
+
+
 
                             })
                             .catch(function (error) {
