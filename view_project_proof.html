@@ -12,12 +12,8 @@
 
         인증 확인 날짜 <input id='date' type="date"> 
 
-        <ul>
-            <li>
-                <div>
-                    인증 내용
-                </div>
-            </li>
+        <ul id='proofList'>
+            
         </ul>
         
 
@@ -48,6 +44,16 @@
                 .then(function (res) {
 
                     console.log(res)
+
+                    res.data.data.project.proofs.forEach(proof => {
+                        console.log(proof)
+
+                        $('#proofList').append(`<li>
+                                                    <div>
+                                                        ${proof.content}
+                                                    </div>
+                                                </li>`)
+                    });
                     
 
                 })
