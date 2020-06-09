@@ -25,6 +25,7 @@
         </div>
 
         <button id='applyButton'>신청하기</button>
+        <button id='proofButton'>인증하기</button>
         
 
         <script>
@@ -58,6 +59,13 @@
             .catch(function (error) {
                 // 실패시 error의 응답에 담긴 message를 얼럿으로
                 alert(error.response.data.message)
+            })
+
+
+            // 인증하기 버튼을 누르면
+            $('#proofButton').click(function() {
+                // 미리 받아둔 프로젝트 id를 들고 인증하기 화면으로 이동
+                $(location).attr('href', `proof_today.html?project_id=${projectId}`)
             })
 
         </script>
