@@ -52,22 +52,48 @@
                         console.log(proof)
 
                         if (proof.images.length > 0) {
-                            $('#proofList').append(`<li>
+                            $('#proofList').append(`<li proof_id=${proof.id}>
                                                         <div>
                                                             <img class="projectListItem" src=${proof.images[0].img_url}>
                                                             ${proof.content}
+                                                            <button class='likeBtn'>좋아요</button>
                                                         </div>
                                                     </li>`)
                         }
                         else {
-                            $('#proofList').append(`<li>
+                            $('#proofList').append(`<li proof_id=${proof.id}>
                                                         <div>
                                                             ${proof.content}
+                                                            <button class='likeBtn'>좋아요</button>
                                                         </div>
                                                     </li>`)
                         }
                         
                     });
+
+
+                    $('.likeBtn').click(function() {
+                        let proofId = $(this).parents('li').attr('proof_id')
+                        console.log('인증글 ID : ', proofId)
+
+                        // 인증글 좋아요에 필요한 데이터를 담아둘 FormData 클래스
+                        const form = new FormData()
+                        // 인증글 ID만 첨부
+                        form.append('proof_id', proofId)
+
+                        // 커스텀 axios로 실제 인증글 좋아요 호출
+
+                        axiosInstance.post('/like_proof', form)
+                            .then(function (res) {
+                                
+                                alert(res.data.message)
+
+                            })
+                            .catch(function (error) {
+                                // 실패시 error의 응답에 담긴 message를 얼럿으로
+                                alert(error.response.data.message)
+                            })
+                    })
                     
 
                 })
