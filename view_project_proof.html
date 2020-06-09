@@ -51,12 +51,20 @@
                     res.data.data.project.proofs.forEach(proof => {
                         console.log(proof)
 
+                        let count = proof.like_count
+                        let buttonTitle = "좋아요"
+
+                        if (proof.my_like) {
+                            buttonTitle = "좋아요 취소"
+                        }
+
                         if (proof.images.length > 0) {
                             $('#proofList').append(`<li proof_id=${proof.id}>
                                                         <div>
                                                             <img class="projectListItem" src=${proof.images[0].img_url}>
                                                             ${proof.content}
-                                                            <button class='likeBtn'>좋아요</button>
+                                                            <button class='likeBtn'>${buttonTitle}</button>
+                                                            ${count}개
                                                         </div>
                                                     </li>`)
                         }
@@ -64,7 +72,8 @@
                             $('#proofList').append(`<li proof_id=${proof.id}>
                                                         <div>
                                                             ${proof.content}
-                                                            <button class='likeBtn'>좋아요</button>
+                                                            <button class='likeBtn'>${buttonTitle}</button>
+                                                            ${count}개
                                                         </div>
                                                     </li>`)
                         }
