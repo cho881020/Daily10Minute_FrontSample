@@ -253,7 +253,16 @@
                     }
                     
                     let form = new FormData()
-                    form.append('proof_id', proofId)
+                    if (parentReplyId == -1) {
+                        // 원본 댓글 작성하는 상황
+                        // 어느 인증글에 댓글다는지를 첨부
+                        form.append('proof_id', proofId)
+                    }
+                    else {
+                        // 답글로 달기 위한 요청
+                        form.append('parent_reply_id', parentReplyId)
+                    }
+
                     form.append('content', content)
 
                     axiosInstance.post('/proof_reply', form)
@@ -270,6 +279,10 @@
                             //  => 함수로 만들고 실행하자.
 
                             getProofInfoFromServer()
+
+                            // 답글 달기 였을 경우 일반 댓글 모드로 원상복구.
+                            $('#reReplyDiv').hide()
+                            parentReplyId = -1
                             
 
                         })
