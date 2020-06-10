@@ -140,6 +140,47 @@
                             
                         });
 
+
+                        // 댓글 목록이 뿌려지고 나면 => 댓글별 좋아요 버튼 이벤트처리
+                        // .replyLikeBtn 에 이벤트 일괄 처리
+
+                        $('.replyLikeBtn').click(function() {
+
+                            let clickedBtn = $(this)
+
+                            let replyId = $(this).parents('li').attr('reply_id')
+                            console.log('몇번 댓글 : ', replyId)
+
+                            let form = new FormData()
+                            form.append('proof_reply_id', replyId)
+
+                            // 커스텀 axios로 실제 댓글 좋아요 호출
+                            axiosInstance.post('/like_proof_reply', form)
+                                .then(function (res) {
+
+                                    console.log(res)
+                                    // 좋아요 취소 여부 얼럿
+                                    alert(res.data.message)
+
+                                    // 눌린 버튼 (변수로 받아오자)의 문구 (text) 변경
+
+                                    let replyLikeBtnTitle = "좋아요"
+                                    if (res.data.data.like.my_like) {
+                                        replyLikeBtnTitle = "좋아요 취소"
+                                    }
+
+                                    clickedBtn.text(replyLikeBtnTitle)
+
+
+
+                                })
+                                .catch(function (error) {
+                                    // 실패시 error의 응답에 담긴 message를 얼럿으로
+                                    alert(error.response.data.message)
+                                })
+
+                        })
+
                     })
                     .catch(function (error) {
                         // 실패시 error의 응답에 담긴 message를 얼럿으로
