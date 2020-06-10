@@ -52,11 +52,18 @@
             // 주소창에 proof_id가 뭐라고 적혀있는지 찾아서 저장.
             let proofId = searchParams.get('proof_id')
 
+            // 어떤 댓글에 답글을 다는지?
+            // -1 이면 => 원본 댓글, 그 외의 값 => 답글로 작성
+            let parentReplyId = -1
+
 
 
             // 답글 취소 버튼 이벤트
 
             $('#cancelReReplyBtn').click(function() {
+
+                // 부모댓글이 없다고 설정 (원본 댓글로 달려는 것이다)
+                parentReplyId = -1
 
                 // 답글 영역 다시 숨김
                 $('#reReplyDiv').hide()
@@ -175,6 +182,10 @@
                             let nickName = $(this).siblings('.userNickName').text()
 
                             $('#parentReplyWriter').text(nickName)
+
+                            // 몇번 댓글의 답글로 기록하려는지 변수에 저장
+                            parentReplyId = $(this).parents('li').attr('reply_id')
+                            console.log('답글 달 댓글 ID : ', parentReplyId)
 
                             // 숨겨둔 답글영역 노출
                             $('#reReplyDiv').show()
