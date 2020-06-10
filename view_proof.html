@@ -164,11 +164,21 @@
                                 title = "좋아요 취소"
                             }
 
-                            $('#replyList').append(`
+                            // 추가해줄 HTML을 변수에 UI로 담아둔다.
+                            let replyItem = $(`
                             <li reply_id=${reply.id}>
                                 <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span> <button class='replyLikeBtn'>${title}</button> <button class='reReplyBtn'>답글 달기</button>
+                                <ul class='reReplyUl'>
+                                </ul>
                             </li>
                             `)
+
+                            // 만들어둔 변수를 실제로 추가.
+                            $('#replyList').append(replyItem)
+
+
+                            // 사용한 변수에 추가로 답글을 표시할 예정
+                            
 
                             
                         });
