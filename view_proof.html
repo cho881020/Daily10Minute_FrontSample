@@ -41,6 +41,43 @@
             // 주소창에 proof_id가 뭐라고 적혀있는지 찾아서 저장.
             let proofId = searchParams.get('proof_id')
 
+
+            // 인증 게시글 자체 좋아요 버튼 이벤트
+
+            $('#likeBtn').click(function() {
+
+                let form = new FormData()
+                form.append('proof_id', proofId)
+
+                // 커스텀 axios로 실제 인증글 좋아요 호출
+                axiosInstance.post('/like_proof', form)
+                    .then(function (res) {
+
+                        console.log(res)
+                        
+                        // 서버에서 주는 메세지 (좋아요 등록 / 취소 여부) 출력
+                        alert(res.data.message)
+
+                        // 좋아요 여부 / 몇명이 눌렀는지 표시
+                        let myLike = res.data.data.like.my_like
+                        let likeCount = res.data.data.like.like_count
+
+                        if (myLike) {
+                            $('#likeBtn').text("좋아요 취소")
+                        }
+                        else {
+                            $('#likeBtn').text("좋아요")
+                        }
+
+                        $('#likeCount').text(`${likeCount}명이 좋아합니다.`)
+
+                    })
+                    .catch(function (error) {
+                        // 실패시 error의 응답에 담긴 message를 얼럿으로
+                        alert(error.response.data.message)
+                    })
+            })
+
             
             function getProofInfoFromServer() {
                 // 보러 들어온 인증글 상세 조회 => axios : GET
