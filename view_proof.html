@@ -169,6 +169,13 @@
                         // 답글 달기 버튼 이벤트 => 클래스로 일괄처리
                         $('.reReplyBtn').click(function() {
 
+                            // 부모댓글 작성자의 닉네임을 표시
+
+                            // 형제관계의 userNickName 클래스인 span에게서 text를 받아오자.
+                            let nickName = $(this).siblings('.userNickName').text()
+
+                            $('#parentReplyWriter').text(nickName)
+
                             // 숨겨둔 답글영역 노출
                             $('#reReplyDiv').show()
                         })
