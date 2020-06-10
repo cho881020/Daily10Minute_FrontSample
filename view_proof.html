@@ -181,14 +181,20 @@
 
                             reply.re_replies.forEach(rr => {
 
-                                console.log(`${reply.content}의 답글 : `, rr.content)
+
+                                console.log(`${reply.content}의 답글 : `, rr)
 
                                 let reReplyUl = replyItem.children('.reReplyUl')
+
+                                let replyLikeBtnTitle = "좋아요"
+                                if (rr.my_like) {
+                                    replyLikeBtnTitle = "좋아요 취소"
+                                }
 
                                 let reReplyItem = $(`
                                 <li re_reply=${rr.id}>
                                     <span class='userNickName'>${rr.user.nick_name}</span> ${rr.content}
-                                    <button class='reReplyLikeBtn'>좋아요</button>
+                                    <button class='reReplyLikeBtn'>${replyLikeBtnTitle}</button>
                                 </li>
                                 `)
                                 reReplyUl.append(reReplyItem)
