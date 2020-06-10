@@ -11,6 +11,7 @@
     <body>
         인증글 상세보기 </br>
 
+        <p id='write_nick'>글쓴사람</p>
         <p id='content'>인증글 내용</p>
         
         <!-- 첨부된 사진들을 보는 목록 -->
@@ -43,6 +44,10 @@
 
                     console.log(res)
 
+                    let userNickName = res.data.data.project.user.nick_name
+
+                    $('#write_nick').text(userNickName)
+
                     let content = res.data.data.project.content
                     
                     $('#content').text(content)
@@ -54,8 +59,6 @@
                         $('#imgList').append(`
                         <img class='proofImgItem' src=${photo.img_url}>
                         `)
-
-
                     });
 
                 })
