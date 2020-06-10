@@ -131,9 +131,14 @@
 
                             // console.log('댓글정보 : ', reply)
 
+                            let title = "좋아요"
+                            if (reply.my_like) {
+                                title = "좋아요 취소"
+                            }
+
                             $('#replyList').append(`
                             <li reply_id=${reply.id}>
-                                <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span> <button class='replyLikeBtn'>좋아요</button>
+                                <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span> <button class='replyLikeBtn'>${title}</button>
                             </li>
                             `)
 
