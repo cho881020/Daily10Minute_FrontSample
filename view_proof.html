@@ -201,6 +201,47 @@
                             
                         });
 
+
+                        // 답글 좋아요 버튼 이벤트 => 클래스로 일괄처리
+                        $('.reReplyLikeBtn').click(function() {
+
+                            // 몇번 답글을 좋아요? id 추출
+                            let reReplyId = $(this).parents('li').attr('re_reply')
+                            console.log(reReplyId)
+
+                            // 눌린 버튼을 변수로 저장
+                            let clickedBtn = $(this)
+
+                            // 답글 ID값을 파라미터로 첨부
+                            let form = new FormData()
+                            form.append('proof_reply_id', reReplyId)
+
+                            // 커스텀 axios로 실제 댓글 좋아요 호출
+                            axiosInstance.post('/like_proof_reply', form)
+                                .then(function (res) {
+
+                                    console.log(res)
+                                    // 좋아요 취소 여부 얼럿
+                                    alert(res.data.message)
+
+                                    // 눌린 버튼 (변수로 받아오자)의 문구 (text) 변경
+
+                                    let replyLikeBtnTitle = "좋아요"
+                                    if (res.data.data.like.my_like) {
+                                        replyLikeBtnTitle = "좋아요 취소"
+                                    }
+
+                                    clickedBtn.text(replyLikeBtnTitle)
+
+
+
+                                })
+                                .catch(function (error) {
+                                    // 실패시 error의 응답에 담긴 message를 얼럿으로
+                                    alert(error.response.data.message)
+                                })
+                        })
+
                         // 답글 달기 버튼 이벤트 => 클래스로 일괄처리
                         $('.reReplyBtn').click(function() {
 
