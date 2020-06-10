@@ -85,6 +85,19 @@
                         
                     });
 
+                    // 각각의 댓글버튼에 대한 이벤트를 일괄처리. => class 기반 이벤트
+                    $('.replyBtn').click(function() {
+                        
+                        // 어떤 인증글을 상세히 보러 이동할건지 id를 추출
+                        // 눌린 버튼의 조상중 li를 찾고, 그 속성중 proof_id 에 적힌 값 추출
+                        let proofId = $(this).parents('li').attr('proof_id')
+                        console.log('눌린 버튼의 인증글id : ', proofId)
+
+                        // 해당 인증글 상세보기 화면으로 이동.
+                        // query파라미터로 몇번글인지 전달.
+                        $(location).attr('href', `view_proof.html?proof_id=${proofId}`) 
+
+                    })
 
                     $('.likeBtn').click(function() {
                         let proofId = $(this).parents('li').attr('proof_id')
