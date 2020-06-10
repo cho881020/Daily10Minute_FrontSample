@@ -33,7 +33,36 @@
             // 주소창에 proof_id가 뭐라고 적혀있는지 찾아서 저장.
             let proofId = searchParams.get('proof_id')
 
-            // 보러 들어온 인증글 상세 조회
+            // 보러 들어온 인증글 상세 조회 => axios : GET
+            axiosInstance.get(`/project_proof/${proofId}`, {
+                    params: {
+                        // project에선 아직 첨부할 자료가 없어서 비워둔다
+                    }
+                })
+                .then(function (res) {
+
+                    console.log(res)
+
+                    let content = res.data.data.project.content
+                    
+                    $('#content').text(content)
+
+                    res.data.data.project.images.forEach(photo => {
+                        
+                        console.log(photo)
+
+                        $('#imgList').append(`
+                        <img class='proofImgItem' src=${photo.img_url}>
+                        `)
+
+
+                    });
+
+                })
+                .catch(function (error) {
+                    // 실패시 error의 응답에 담긴 message를 얼럿으로
+                    alert(error.response.data.message)
+                })
 
         </script>
 
