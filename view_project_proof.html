@@ -48,11 +48,17 @@
 
                     res.data.data.project.proofs.forEach(proof => {
 
-                        let count = proof.like_count
-                        let buttonTitle = "좋아요"
+                        console.log(proof)
+
+                        // 좋아요 갯수 / 취소여부 문구 설정
+                        let likeCount = proof.like_count
+                        let likeButtonTitle = "좋아요"
+
+                        // 댓글 갯수로 댓글버튼 문구 생성
+                        let replyBtnTitle = `댓글 : ${proof.reply_count}`
 
                         if (proof.my_like) {
-                            buttonTitle = "좋아요 취소"
+                            likeButtonTitle = "좋아요 취소"
                         }
 
                         if (proof.images.length > 0) {
@@ -60,8 +66,9 @@
                                                         <div>
                                                             <img class="projectListItem" src=${proof.images[0].img_url}>
                                                             ${proof.content}
-                                                            <button class='likeBtn'>${buttonTitle}</button>
-                                                            <span class='likeCount'>${count}개</span>
+                                                            <button class='likeBtn'>${likeButtonTitle}</button>
+                                                            <span class='likeCount'>${likeCount}개</span>
+                                                            <button class='replyBtn'>${replyBtnTitle}</button>
                                                         </div>
                                                     </li>`)
                         }
@@ -69,8 +76,9 @@
                             $('#proofList').append(`<li proof_id=${proof.id}>
                                                         <div>
                                                             ${proof.content}
-                                                            <button class='likeBtn'>${buttonTitle}</button>
-                                                            <span class='likeCount'>${count}개</span>
+                                                            <button class='likeBtn'>${likeButtonTitle}</button>
+                                                            <span class='likeCount'>${likeCount}개</span>
+                                                            <button class='replyBtn'>${replyBtnTitle}</button>
                                                         </div>
                                                     </li>`)
                         }
