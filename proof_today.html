@@ -30,9 +30,8 @@
         // 주소창에서 받아낸 프로젝트 id를 폼에 추가.
         form.append('project_id', projectId)
 
-        // 이 폼데이터를 서버에 put - /project_proof 로 전송 => axios
-        // 커스텀 axios로 실제 로그인 호출
-        axiosInstance.put('/project_proof', form)
+        // 이 폼데이터를 서버에 post - /project_proof 로 전송 => axios
+        axiosInstance.post('/project_proof', form)
             .then(function (res) {
                 
                 console.log(res)
