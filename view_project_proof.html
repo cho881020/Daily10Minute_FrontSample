@@ -36,10 +36,10 @@
 
                 //  서버에서 해당 날짜로 인증내역 불러오기.
                 // 프로젝트 상세조회 API 호출 => /project/1  와 같이 주소에 id를 이어붙이자.
-                // 인증 목록을 보고싶은 날짜를 파라미터로 추가 : ?proof_date=2020-06-09
-                axiosInstance.get(`/project/${projectId}?proof_date=${proofDate}`, {
+                // 인증 목록을 보고싶은 날짜를 파라미터로 추가 => params 활용 첨부
+                axiosInstance.get(`/project/${projectId}`, {
                     params: {
-                        // project에선 아직 첨부할 자료가 없어서 비워둔다
+                        'proof_date': proofDate
                     }
                 })
                 .then(function (res) {
