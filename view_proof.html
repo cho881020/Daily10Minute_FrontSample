@@ -19,6 +19,11 @@
 
         </div>
 
+        <!-- 좋아요 버튼 / 몇명이 좋아하는지 -->
+
+    </br></br>
+        <button id='likeBtn'>좋아요</button> <span id='likeCount'>?명이 좋아합니다.</span>
+
         <!-- 댓글 목록 -->
         <ul id='replyList'>
 
@@ -44,26 +49,41 @@
 
                     console.log(res)
 
+                    // 사용자 닉네임추출 => 표시
                     let userNickName = res.data.data.project.user.nick_name
-
                     $('#write_nick').text(userNickName)
 
+                    // 인증 게시글 내용 표시
                     let content = res.data.data.project.content
-                    
                     $('#content').text(content)
 
+                    // 사진 목록을 div에 여러개 추가
                     res.data.data.project.images.forEach(photo => {
                         
-                        console.log(photo)
-
                         $('#imgList').append(`
                         <img class='proofImgItem' src=${photo.img_url}>
                         `)
                     });
 
+                    // 좋아요 여부 / 몇명이 눌렀는지 표시
+                    let myLike = res.data.data.project.my_like
+                    let likeCount = res.data.data.project.like_count
+
+                    if (myLike) {
+                        $('#likeBtn').text("좋아요 취소")
+                    }
+                    else {
+                        $('#likeBtn').text("좋아요")
+                    }
+
+                    $('#likeCount').text(`${likeCount}명이 좋아합니다.`)
+
+                    
+
+                    // 댓글 목록을 ul에 추가
                     res.data.data.project.replies.forEach(reply => {
 
-                        console.log('댓글정보 : ', reply)
+                        // console.log('댓글정보 : ', reply)
 
                         $('#replyList').append(`
                         <li reply_id=${reply.id}>
