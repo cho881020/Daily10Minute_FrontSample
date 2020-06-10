@@ -16,7 +16,6 @@
         <ul id='proofList'>
             
         </ul>
-        
 
         <script>
             
@@ -152,6 +151,24 @@
 
 
             }) 
+
+
+            // 날짜 변경 이벤트가 세팅 되고 나면
+            // 오늘 날짜를 yyyy-MM-dd 양식으로 받아와서
+
+            let now = new Date()
+            let year = now.getFullYear()
+            let month = String(now.getMonth()+1).padStart(2, '0')
+            let day = String(now.getDate()).padStart(2, '0')
+
+            let today = `${year}-${month}-${day}`
+            console.log('오늘날짜 : ', today)
+
+            // $('#date') 의 값으로 세팅. => 값이 변경되니까 서버에서 로딩.
+            $('#date').val(today)
+            // 코드로 값을 수정하면 change 이벤트 발생 X. => change 이벤트 강제 실행
+            $('#date').trigger('change')
+
 
         </script>
 
