@@ -178,6 +178,24 @@
 
 
                             // 사용한 변수에 추가로 답글을 표시할 예정
+
+                            reply.re_replies.forEach(rr => {
+
+                                console.log(`${reply.content}의 답글 : `, rr.content)
+
+                                let reReplyUl = replyItem.children('.reReplyUl')
+
+                                let reReplyItem = $(`
+                                <li re_reply=${rr.id}>
+                                    <span class='userNickName'>${rr.user.nick_name}</span> ${rr.content}
+                                    <button class='reReplyLikeBtn'>좋아요</button>
+                                </li>
+                                `)
+                                reReplyUl.append(reReplyItem)
+                                
+                            });
+
+
                             
 
                             
