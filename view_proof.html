@@ -24,15 +24,26 @@
     </br></br>
         <button id='likeBtn'>좋아요</button> <span id='likeCount'>?명이 좋아합니다.</span>
 
+
         <!-- 댓글 목록 -->
         <ul id='replyList'>
 
         </ul>
+
+        
+        <!-- 누구에게 답글을 다는지 표시하는 영역 -->
+        <div id='reReplyDiv'>
+
+            <span id='parentReplyWriter'>~~</span>에게 답글 다는 중 <button id='cancelReReplyBtn'>답글 취소</button>
+
+        </div>
         
         <input id='replyContent' type="text" placeholder="댓글 내용을 입력하세요."> <button id='replyBtn'>댓글 달기</button>
 
         <script>
 
+            // 답글 영역은 일단 숨김처리
+            $('#reReplyDiv').hide()
             
             // 몇번 인증글을 보러 온건지 주소창 확인
             
@@ -41,6 +52,16 @@
             // 주소창에 proof_id가 뭐라고 적혀있는지 찾아서 저장.
             let proofId = searchParams.get('proof_id')
 
+
+
+            // 답글 취소 버튼 이벤트
+
+            $('#cancelReReplyBtn').click(function() {
+
+                // 답글 영역 다시 숨김
+                $('#reReplyDiv').hide()
+
+            })
 
             // 인증 게시글 자체 좋아요 버튼 이벤트
 
@@ -138,12 +159,19 @@
 
                             $('#replyList').append(`
                             <li reply_id=${reply.id}>
-                                <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span> <button class='replyLikeBtn'>${title}</button>
+                                <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span> <button class='replyLikeBtn'>${title}</button> <button class='reReplyBtn'>답글 달기</button>
                             </li>
                             `)
 
                             
                         });
+
+                        // 답글 달기 버튼 이벤트 => 클래스로 일괄처리
+                        $('.reReplyBtn').click(function() {
+
+                            // 숨겨둔 답글영역 노출
+                            $('#reReplyDiv').show()
+                        })
 
 
                         // 댓글 목록이 뿌려지고 나면 => 댓글별 좋아요 버튼 이벤트처리
