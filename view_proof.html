@@ -1,1 +1,42 @@
-인증글 조회 화면 (몇번 인증글인지 파악해야함)
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+        
+    </head>
+    <body>
+        인증글 상세보기 </br>
+
+        <p id='content'>인증글 내용</p>
+        
+        <!-- 첨부된 사진들을 보는 목록 -->
+        <div id='imgList'>
+
+        </div>
+
+        <!-- 댓글 목록 -->
+        <ul id='replyList'>
+
+        </ul>
+        
+
+        <script>
+            
+            // 몇번 인증글을 보러 온건지 주소창 확인
+            
+            // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
+            let searchParams = new URLSearchParams(window.location.search)
+            // 주소창에 proof_id가 뭐라고 적혀있는지 찾아서 저장.
+            let proofId = searchParams.get('proof_id')
+
+            // 보러 들어온 인증글 상세 조회
+
+        </script>
+
+    </body>
+</html>
+
