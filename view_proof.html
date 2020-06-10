@@ -32,6 +32,7 @@
         <input id='replyContent' type="text" placeholder="댓글 내용을 입력하세요."> <button id='replyBtn'>댓글 달기</button>
 
         <script>
+
             
             // 몇번 인증글을 보러 온건지 주소창 확인
             
@@ -40,66 +41,77 @@
             // 주소창에 proof_id가 뭐라고 적혀있는지 찾아서 저장.
             let proofId = searchParams.get('proof_id')
 
-            // 보러 들어온 인증글 상세 조회 => axios : GET
-            axiosInstance.get(`/project_proof/${proofId}`, {
-                    params: {
-                        // project에선 아직 첨부할 자료가 없어서 비워둔다
-                    }
-                })
-                .then(function (res) {
+            
+            function getProofInfoFromServer() {
+                // 보러 들어온 인증글 상세 조회 => axios : GET
+                axiosInstance.get(`/project_proof/${proofId}`, {
+                        params: {
+                            // project에선 아직 첨부할 자료가 없어서 비워둔다
+                        }
+                    })
+                    .then(function (res) {
 
-                    console.log(res)
+                        console.log(res)
 
-                    // 사용자 닉네임추출 => 표시
-                    let userNickName = res.data.data.project.user.nick_name
-                    $('#write_nick').text(userNickName)
+                        // 사용자 닉네임추출 => 표시
+                        let userNickName = res.data.data.project.user.nick_name
+                        $('#write_nick').text(userNickName)
 
-                    // 인증 게시글 내용 표시
-                    let content = res.data.data.project.content
-                    $('#content').text(content)
+                        // 인증 게시글 내용 표시
+                        let content = res.data.data.project.content
+                        $('#content').text(content)
 
-                    // 사진 목록을 div에 여러개 추가
-                    res.data.data.project.images.forEach(photo => {
-                        
-                        $('#imgList').append(`
-                        <img class='proofImgItem' src=${photo.img_url}>
-                        `)
-                    });
+                        // 사진 목록을 비워두고 => 추가
+                        $('#imgList').empty()
 
-                    // 좋아요 여부 / 몇명이 눌렀는지 표시
-                    let myLike = res.data.data.project.my_like
-                    let likeCount = res.data.data.project.like_count
+                        // 사진 목록을 div에 여러개 추가
+                        res.data.data.project.images.forEach(photo => {
+                            
+                            $('#imgList').append(`
+                            <img class='proofImgItem' src=${photo.img_url}>
+                            `)
+                        });
 
-                    if (myLike) {
-                        $('#likeBtn').text("좋아요 취소")
-                    }
-                    else {
-                        $('#likeBtn').text("좋아요")
-                    }
+                        // 좋아요 여부 / 몇명이 눌렀는지 표시
+                        let myLike = res.data.data.project.my_like
+                        let likeCount = res.data.data.project.like_count
 
-                    $('#likeCount').text(`${likeCount}명이 좋아합니다.`)
+                        if (myLike) {
+                            $('#likeBtn').text("좋아요 취소")
+                        }
+                        else {
+                            $('#likeBtn').text("좋아요")
+                        }
 
-                    
+                        $('#likeCount').text(`${likeCount}명이 좋아합니다.`)
 
-                    // 댓글 목록을 ul에 추가
-                    res.data.data.project.replies.forEach(reply => {
 
-                        // console.log('댓글정보 : ', reply)
+                        // 댓글 목록도 비우고 추가
+                        $('#replyList').empty()
 
-                        $('#replyList').append(`
-                        <li reply_id=${reply.id}>
-                            <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span> <button class='replyLikeBtn'>좋아요</button>
-                        </li>
-                        `)
+                        // 댓글 목록을 ul에 추가
+                        res.data.data.project.replies.forEach(reply => {
 
-                        
-                    });
+                            // console.log('댓글정보 : ', reply)
 
-                })
-                .catch(function (error) {
-                    // 실패시 error의 응답에 담긴 message를 얼럿으로
-                    alert(error.response.data.message)
-                })
+                            $('#replyList').append(`
+                            <li reply_id=${reply.id}>
+                                <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span> <button class='replyLikeBtn'>좋아요</button>
+                            </li>
+                            `)
+
+                            
+                        });
+
+                    })
+                    .catch(function (error) {
+                        // 실패시 error의 응답에 담긴 message를 얼럿으로
+                        alert(error.response.data.message)
+                    })
+                }
+
+                
+                getProofInfoFromServer()
 
                 
                 // 댓글달기 버튼이 눌리면
@@ -119,6 +131,16 @@
                         .then(function (res) {
                             
                             console.log(res)
+                            // 성공 여부 얼럿
+                            alert(res.data.message)
+
+                            // 입력한 내용 지워주기
+                            $('#replyContent').val('')
+
+                            // 서버에서 댓글 내용 다시 가져오기
+                            //  => 함수로 만들고 실행하자.
+
+                            getProofInfoFromServer()
                             
 
                         })
