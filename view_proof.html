@@ -61,6 +61,19 @@
                         `)
                     });
 
+                    res.data.data.project.replies.forEach(reply => {
+
+                        console.log('댓글정보 : ', reply)
+
+                        $('#replyList').append(`
+                        <li reply_id=${reply.id}>
+                            <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span>
+                        </li>
+                        `)
+
+                        
+                    });
+
                 })
                 .catch(function (error) {
                     // 실패시 error의 응답에 담긴 message를 얼럿으로
