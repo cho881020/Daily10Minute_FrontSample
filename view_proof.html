@@ -29,6 +29,7 @@
 
         </ul>
         
+        <input id='replyContent' type="text" placeholder="댓글 내용을 입력하세요."> <button id='replyBtn'>댓글 달기</button>
 
         <script>
             
@@ -87,7 +88,7 @@
 
                         $('#replyList').append(`
                         <li reply_id=${reply.id}>
-                            <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span>
+                            <span class='userNickName'>${reply.user.nick_name}</span> <span>${reply.content}</span> <button class='replyLikeBtn'>좋아요</button>
                         </li>
                         `)
 
@@ -98,6 +99,33 @@
                 .catch(function (error) {
                     // 실패시 error의 응답에 담긴 message를 얼럿으로
                     alert(error.response.data.message)
+                })
+
+                
+                // 댓글달기 버튼이 눌리면
+                $('#replyBtn').click(function() {
+                    let content = $('#replyContent').val()
+
+                    if (content == '') {
+                        alert('내용을 입력해주세요.')
+                        return
+                    }
+                    
+                    let form = new FormData()
+                    form.append('proof_id', proofId)
+                    form.append('content', content)
+
+                    axiosInstance.post('/proof_reply', form)
+                        .then(function (res) {
+                            
+                            console.log(res)
+                            
+
+                        })
+                        .catch(function (error) {
+                            // 실패시 error의 응답에 담긴 message를 얼럿으로
+                            alert(error.response.data.message)
+                        })
                 })
 
         </script>
