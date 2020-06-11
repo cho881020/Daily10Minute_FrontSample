@@ -31,6 +31,40 @@
 
             $('#changePwBtn').click(function () {
                 
+                let currentPw = $('#currentPwInput').val()
+                let newPw = $('#newPwInput').val()
+                let newPwConfirm = $('#newPwConfirmInput').val()
+
+                // 받아온 기존 비번 + 새 비번을 서버에 전달
+                // 검사를 통과한 비번을 서버에 변경요청
+                // PATCH - /user 에 보내자.
+
+                // 비번 변경 요청 데이터를 담아둘 FormData 클래스
+                const form = new FormData()
+                form.append('current_password', currentPw)
+                form.append('new_password', newPw)
+
+                // 커스텀 axios로 실제 비번 변경 호출
+
+                axiosInstance.patch('/user', form)
+                    .then(function (res) {
+                        
+                        console.log(res)
+
+                        let token = res.data.data.token
+                        // 변수에 담아둔 토큰을 쿠키에 저장
+                        $.cookie('userToken', token)
+
+                        alert('비번 변경 완료')
+                        $(location).attr('href', 'my_profile.html')
+
+                    })
+                    .catch(function (error) {
+                        // 실패시 error의 응답에 담긴 message를 얼럿으로
+                        alert(error.response.data.message)
+                    })
+
+
             })
         </script>
     </body>
