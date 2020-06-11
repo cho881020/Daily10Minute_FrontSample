@@ -12,8 +12,8 @@
 
         <img id='projectImg' style="height: 30%; width: 100%;">
 
-        <div id='title'>
-
+        <div>
+            <span id='title'></span> <span id='userCount'>(현재 참여 인원 : ??명)</span>
         </div>
 
         <div id='description'>
@@ -56,8 +56,15 @@
 
                 $('#projectImg').attr('src', res.data.data.project.img_url)
 
+                // 추가작업 - 내 프로젝트면 신청 버튼 비활성화
+                let isMyProject = res.data.data.project.is_my_project
+                $('#applyButton').attr('disabled', isMyProject)
+
+
                 // 서버에서 추가로 내려주는 참여인원수 확인
-                console.log('참여 인원 수 : ', res.data.data.project.apply_count)
+                let userCount = res.data.data.project.ongoing_users_count
+
+                $('#userCount').text(`(현재 참여 인원 : ${userCount}명)`)
 
             })
             .catch(function (error) {
