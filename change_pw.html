@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+        
+    </head>
+    <body>
+        비번 변경
+
+        <div>
+            기존 비밀번호 입력 : <input type='password' id='currentPwInput' placeholder="사용중인 비밀번호"> <br><br>
+            새 비밀번호 입력 : <input type="password" id='newPwInput' placeholder="변경할 비밀번호 입력"> <br>
+            <span id='pwStatusTxt'>비밀번호를 입력해주세요.</span><br><br>
+            새 비밀번호 확인 : <input type="password" id='newPwConfirmInput' placeholder="변경할 비밀번호 다시 입력"> <br>
+            <span id='pwConfirmStatusTxt'>비밀번호 확인을 입력해주세요.</span><br><br>
+            
+            <button id='changePwBtn'>비번 변경 하기</button>
+        </div>
+
+        
+        
+        <script>
+            // 이벤트 처리 전담
+
+
+            // 비번 변경 버튼
+
+            $('#changePwBtn').click(function () {
+                
+            })
+        </script>
+    </body>
+</html>
+

@@ -25,6 +25,11 @@
         </form>
         <button id='uploadProfileBtn'>프사 업로드</button>
 
+        <div>
+            <button id='changePwBtn'>비밀번호 변경하러 가기</button>
+        </div>
+        
+
         <script>
 
 
@@ -104,6 +109,13 @@
         </script>
         <script>
             // 이벤트 처리 전담
+
+
+            // 비번 변경 버튼
+
+            $('#changePwBtn').click(function () {
+                $(location).attr('href', 'change_pw.html')
+            })
 
 
             // 프사 업로드 버튼
