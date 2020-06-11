@@ -9,13 +9,20 @@
         
     </head>
     <body>
-        메인화면
+        메인화면 <button id="profileBtn">프로필 수정</button>
 
         <ul id='projectList'>
             
         </ul>
 
         <script>
+
+            // 프로필 수정 버튼이 눌리면
+            $('#profileBtn').click(function () {
+
+                $(location).attr('href', 'my_profile.html')
+            })
+
             // 메인 화면 접속 하자마자 쿠키에 저장된 토큰 확인
             console.log('메인에서의 쿠키 : ', $.cookie('userToken'))
 

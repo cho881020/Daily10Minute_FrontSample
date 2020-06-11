@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+        
+    </head>
+    <body>
+        프로필 수정
+
+        <div>
+            닉네임 : <span id='nickNameSpan'></span> <br>
+            새 닉네임 : <input type="text" id='newNickNameInput' placeholder="변경할 닉네임 입력"> <button id='changeNickBtn'>닉네임 변경</button>
+        </div>
+
+        <script>
+
+
+            // POST/PUT은 FormData를 쓰지만
+            // GET은 직접 params로 필요한걸 적자
+
+            axiosInstance.get('/my_info', {
+                params: {
+                    // project에선 아직 첨부할 자료가 없어서 비워둔다
+                }
+            })
+            .then(function (res) {
+
+                console.log(res)
+                
+                // 내 정보중 닉네임 저장
+                let nickName = res.data.data.user.nick_name
+                // 저장한 닉네임을 span에 출력
+                $('#nickNameSpan').text(nickName)
+
+
+            })
+            .catch(function (error) {
+                // 실패시 error의 응답에 담긴 message를 얼럿으로
+                alert(error.response.data.message)
+            })
+
+        </script>
+    </body>
+</html>
+
