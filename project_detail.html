@@ -28,6 +28,7 @@
         <button id='proofButton'>인증하기</button>
         <button id='viewProofButton'>다른 사람들의 인증 내역 보러가기</button>
         
+        <button id='userListBtn'>참여중인 사람들 보기</button>
 
         <script>
             
@@ -64,6 +65,15 @@
                 alert(error.response.data.message)
             })
 
+
+            // 사용자목록보기를 누르면
+            $('#userListBtn').click(function() {
+                // 미리 저장해둔 프로젝트 id값을 들고
+                // 사용자 목록 화면으로 이동
+
+                $(location).attr('href', `user_list.html?project_id=${projectId}`)
+
+            })
 
             // 인증하기 버튼을 누르면
             $('#proofButton').click(function() {
