@@ -26,6 +26,47 @@
         <script>
             // 이벤트 처리 전담
 
+            // 새 비번 입력값 변경
+            $('#newPwInput').keyup(function () {
+                let newPw = $('#newPwInput').val()
+
+                // 길이가 최소 8글자 되어야함
+                if (newPw.length == 0) {
+                    $('#pwStatusTxt').text('비밀번호를 입력해주세요.')
+                }
+                else if (newPw.length < 8) {
+
+                    $('#pwStatusTxt').text('비밀번호가 너무 짧습니다.')
+                }
+                else {
+
+                    $('#pwStatusTxt').text('사용해도 좋은 비밀번호 입니다.')
+                }
+            })
+
+            // 새 비번 확인 입력값 변경
+            $('#newPwConfirmInput').keyup(function () {
+                let newPwConfirm = $('#newPwConfirmInput').val()
+                
+                // 0글자 : 입력 메세지 => 그 이외에는 같냐/아니냐만 체크
+                if (newPwConfirm.length == 0) {
+                    $('#pwConfirmStatusTxt').text('비밀번호 확인을 입력해주세요.')
+                }
+                else {
+
+                    let newPw = $('#newPwInput').val()
+
+                    if (newPw == newPwConfirm) {
+                        $('#pwConfirmStatusTxt').text('비밀번호가 서로 같습니다.')
+
+                    }
+                    else {
+                        $('#pwConfirmStatusTxt').text('비밀번호가 서로 다릅니다.')
+                    }
+                    
+                }
+            })
+
 
             // 비번 변경 버튼
 
