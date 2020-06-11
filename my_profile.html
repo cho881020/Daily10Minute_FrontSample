@@ -20,6 +20,11 @@
 
         </div>
 
+        <form id='profileImgUploadForm'>
+            추가할 프사 첨부 : <input name="profile_images" type="file" accept="image/*"> </br>
+        </form>
+        <button id='uploadProfileBtn'>프사 업로드</button>
+
         <script>
 
 
@@ -66,6 +71,25 @@
         </script>
         <script>
             // 이벤트 처리 전담
+
+
+            // 프사 업로드 버튼
+            $('#uploadProfileBtn').click(function () {
+                // 폼데이터에는 id로 찾은 객체에서도 0번째로 명시.
+                const form = new FormData($('#profileImgUploadForm')[0])
+
+                // 이 폼데이터를 서버에 put - /user_profile_image 로 전송 => axios
+                axiosInstance.put('/user_profile_image', form)
+                    .then(function (res) {
+                        
+                        console.log(res)
+
+                    })
+                    .catch(function (error) {
+                        // 실패시 error의 응답에 담긴 message를 얼럿으로
+                        alert(error.response.data.message)
+                    })
+            })
 
             // 닉네임 변경 버튼
             $('#changeNickBtn').click(function () {
