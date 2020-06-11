@@ -16,6 +16,10 @@
             새 닉네임 : <input type="text" id='newNickNameInput' placeholder="변경할 닉네임 입력"> <button id='changeNickBtn'>닉네임 변경</button>
         </div>
 
+        <div id='profileImagesDiv'>
+
+        </div>
+
         <script>
 
 
@@ -35,6 +39,22 @@
                 let nickName = res.data.data.user.nick_name
                 // 저장한 닉네임을 span에 출력
                 $('#nickNameSpan').text(nickName)
+
+                // 프로필 사진 목록을 div에 img 태그들로 추가
+
+                res.data.data.user.profile_images.forEach(pfImg => {
+                    console.log('프사 : ', pfImg)
+
+                    // 추가해줄 img 태그 => Jquery로 만든 결과를 변수로 저장
+                    let pfImage = $(`
+                    <img class='userProfileImg' src=${pfImg.img_url}>
+                    `)
+
+                    // 완성된 태그를 프사 목록 div에 추가
+                    $('#profileImagesDiv').append(pfImage)
+
+
+                });
 
 
             })
