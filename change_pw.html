@@ -26,9 +26,17 @@
         <script>
             // 이벤트 처리 전담
 
-            // 새 비번 입력값 변경
-            $('#newPwInput').keyup(function () {
+            // 비번 관련 검사 전담 함수
+            function checkPassword() {
+
+                // 입력한 모든 비번 가져오기 => 검사에 활용
+                let currentPw = $('#currentPwInput').val()
                 let newPw = $('#newPwInput').val()
+                let newPwConfirm = $('#newPwConfirmInput').val()
+
+
+                // 새 비번의 길이가 8글자 이상인지?
+                let newPwLengthOk = false
 
                 // 길이가 최소 8글자 되어야함
                 if (newPw.length == 0) {
@@ -41,12 +49,12 @@
                 else {
 
                     $('#pwStatusTxt').text('사용해도 좋은 비밀번호 입니다.')
+                    // 길이검사를 통과시킴.
+                    newPwLengthOk = true
                 }
-            })
 
-            // 새 비번 확인 입력값 변경
-            $('#newPwConfirmInput').keyup(function () {
-                let newPwConfirm = $('#newPwConfirmInput').val()
+                // 비번 확인의 내용이 새 비번과 같은지?
+                let confirmPwOk = false
                 
                 // 0글자 : 입력 메세지 => 그 이외에는 같냐/아니냐만 체크
                 if (newPwConfirm.length == 0) {
@@ -58,6 +66,7 @@
 
                     if (newPw == newPwConfirm) {
                         $('#pwConfirmStatusTxt').text('비밀번호가 서로 같습니다.')
+                        confirmPwOk = true
 
                     }
                     else {
@@ -65,6 +74,25 @@
                     }
                     
                 }
+
+                // 둘다 OK이면 결과를 true로 리턴
+                
+                // 비번 검사 결과를 저장할 변수
+                let passwordOk = newPwLengthOk && confirmPwOk
+
+                // 최종 검사 결과를 리턴
+                return passwordOk
+
+            }
+
+            // 새 비번 입력값 변경
+            $('#newPwInput').keyup(function () {
+                checkPassword()
+            })
+
+            // 새 비번 확인 입력값 변경
+            $('#newPwConfirmInput').keyup(function () {
+                checkPassword()
             })
 
 
@@ -77,6 +105,14 @@
                 let newPwConfirm = $('#newPwConfirmInput').val()
 
                 // 받아온 기존 비번 + 새 비번을 서버에 전달
+
+                // 세개의 비번을 가지고 보내도 좋은지 검사
+
+                // if (조건 틀리면) {
+                //     alert('안내메세지')
+                //     return
+                // }
+
                 // 검사를 통과한 비번을 서버에 변경요청
                 // PATCH - /user 에 보내자.
 
