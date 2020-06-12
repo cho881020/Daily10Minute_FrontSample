@@ -32,6 +32,10 @@
 
         axiosInstance.post('/user', form)
             .then(function (res) {
+
+                // 로그인 시에도 받아온 사용자 정보를 localStoage에 저장.
+                let user = res.data.data.user
+                localStorage.setItem('userInfo', JSON.stringify(user))
                 
                 // 성공 응답에 담긴 토큰을 변수로 저장
                 let token = res.data.data.token
