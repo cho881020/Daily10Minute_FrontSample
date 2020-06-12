@@ -11,6 +11,19 @@
     <body>
         검색결과 / 키워드 : <span id='keywordSpan'>??</span>
 
+        <ul>
+            <li class='parent'>프로젝트 목록
+                <ul id='projectListUl'>
+
+                </ul>
+            </li>
+            <li class='parent'>태그 목록
+                <ul id='tagListUl'>
+
+                </ul>
+            </li>
+        </ul>
+
         <script>
 
             // 들고온 검색어를 받아서 search API에 전달
@@ -34,6 +47,26 @@
             })
             .then(function (res) {
                 console.log(res)
+
+                // 응답의 프로젝트 목록을 변수로 저장
+                let projectList = res.data.data.projects
+
+                // 해당 목록으로 반복
+                projectList.forEach(project => {
+                    
+                    console.log(project)
+
+                    // 하나하나의 프로젝트 모양을 나타내는 li를 변수로 담자.
+                    let projectLi = $(`
+                    <li project_id=${project.id}>
+                        <span>${project.title}</span>
+                    </li>
+                    `)
+
+                    // 완성된 li를 projectListUl 의 내용물로 추가
+                    $('#projectListUl').append(projectLi) 
+                });
+
             })
             .catch(function (error) {
                 // 실패시 error의 응답에 담긴 message를 얼럿으로
