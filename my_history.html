@@ -106,6 +106,21 @@
                 })
                 .then(function (res) {
                     console.log(res)
+
+                    $('#proofList').empty()
+
+                    res.data.data.proofs.forEach(proof => {
+                        
+                        let proofLi = $(`
+                        <li>
+                            ${proof.project.title} / ${proof.content}
+                        </li>
+                        `)
+
+                        $('#proofList').append(proofLi)
+
+                    });
+
                 })
                 .catch(function (err) {
                     console.log(err)
