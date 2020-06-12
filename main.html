@@ -10,12 +10,28 @@
     </head>
     <body>
         메인화면 <span id='nickNameTxt'>닉네임 : ??</span> <button id="profileBtn">프로필 수정</button>
+        <input id='keywordInput' placeholder="검색어 입력(태그/프로젝트)"><button id="searchBtn">검색</button>
 
         <ul id='projectList'>
             
         </ul>
 
         <script>
+
+            $('#searchBtn').click(function () {
+
+                let searchKeyword = $('#keywordInput').val()
+                if (searchKeyword.length < 1) {
+                    // 키워드가 입력 안되면 후속 진행 막기
+                    alert('키워드를 입력해주세요.')
+                    return
+                }
+
+
+                // 입력된 키워드를 들고 search.html에 전달.
+                $(location).attr('href', `search.html?keyword=${searchKeyword}`)
+                
+            })
 
             // localStorage에 저장된 사용자정보 (String) 를 확인.
             // 저장된 정보를 => JSONObject로 변경 => 화면에 뿌려주기
