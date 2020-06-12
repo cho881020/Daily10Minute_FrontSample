@@ -9,7 +9,9 @@
         
     </head>
     <body>
-        메인화면 <span id='nickNameTxt'>닉네임 : ??</span> <button id="profileBtn">프로필 수정</button>
+        메인화면 <span id='nickNameTxt'>닉네임 : ??</span>
+        <button id="myHistoryBtn">나의 참여 내역</button>
+        <button id="profileBtn">프로필 수정</button>
         <input id='keywordInput' placeholder="검색어 입력(태그/프로젝트)"><button id="searchBtn">검색</button>
 
         <ul id='projectList'>
@@ -17,6 +19,10 @@
         </ul>
 
         <script>
+
+            $('#myHistoryBtn').click(function() {
+                location.href = 'my_history.html'
+            })
 
             $('#searchBtn').click(function () {
 
