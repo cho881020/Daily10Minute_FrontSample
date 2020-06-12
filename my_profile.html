@@ -32,79 +32,72 @@
 
         <script>
 
+            // localStorage에 저장된 사용자 정보를 가지고 화면에 대입.
+            // 서버에서 내 정보 불러오기 X
 
-            // POST/PUT은 FormData를 쓰지만
-            // GET은 직접 params로 필요한걸 적자
+            // 저장해둔 사용자 정보 String 추출
+            let userInfoStr = localStorage.getItem('userInfo')
 
-            axiosInstance.get('/my_info', {
-                params: {
-                    // project에선 아직 첨부할 자료가 없어서 비워둔다
+            // 추출한 String => JSON으로 변환
+            let loginUser = JSON.parse(userInfoStr)
+
+            console.log('로그인사용자 : ', loginUser)
+
+
+            // 내 정보중 닉네임 저장
+            let nickName = loginUser.nick_name
+            // 저장한 닉네임을 span에 출력
+            $('#nickNameSpan').text(nickName)
+
+            // 프로필 사진 목록을 div에 img 태그들로 추가
+
+            loginUser.profile_images.forEach(pfImg => {
+                console.log('프사 : ', pfImg)
+
+                // 추가해줄 img 태그 => Jquery로 만든 결과를 변수로 저장
+                // 이 사진이 몇번 사진인지도 추가 기록
+                let pfImage = $(`
+                <img image_id=${pfImg.id} class='userProfileImg' src=${pfImg.img_url}>
+                `)
+
+                // 완성된 태그를 프사 목록 div에 추가
+                $('#profileImagesDiv').append(pfImage)
+
+
+            });
+
+            // 추가된 이미지들에게 이벤트 일괄 부여
+            $('.userProfileImg').click(function () {
+
+                // 몇번 이미지를 클릭했는지?
+                let imageId = $(this).attr('image_id')
+                console.log(imageId)
+
+                // 정말 사진을 지울건지? 확인
+                let deleteOk = confirm('정말 해당 사진을 삭제하시겠습니까?')
+
+                if (deleteOk) {
+                    // 해당 이미지를 삭제 => DELETE => GET과 유사.
+                    axiosInstance.delete('/user_profile_image', {
+                        params: {
+                            'image_id':imageId
+                        }
+                    })
+                    .then(function (res) {
+                        console.log(res)
+                        alert('프사를 삭제 했습니다.')
+                        // 화면 새로고침
+                        location.reload()
+                    })
+                    .catch(function (err) {
+                        console.log(err)
+                    })
                 }
-            })
-            .then(function (res) {
 
-                console.log(res)
                 
-                // 내 정보중 닉네임 저장
-                let nickName = res.data.data.user.nick_name
-                // 저장한 닉네임을 span에 출력
-                $('#nickNameSpan').text(nickName)
-
-                // 프로필 사진 목록을 div에 img 태그들로 추가
-
-                res.data.data.user.profile_images.forEach(pfImg => {
-                    console.log('프사 : ', pfImg)
-
-                    // 추가해줄 img 태그 => Jquery로 만든 결과를 변수로 저장
-                    // 이 사진이 몇번 사진인지도 추가 기록
-                    let pfImage = $(`
-                    <img image_id=${pfImg.id} class='userProfileImg' src=${pfImg.img_url}>
-                    `)
-
-                    // 완성된 태그를 프사 목록 div에 추가
-                    $('#profileImagesDiv').append(pfImage)
-
-
-                });
-
-                // 추가된 이미지들에게 이벤트 일괄 부여
-                $('.userProfileImg').click(function () {
-
-                    // 몇번 이미지를 클릭했는지?
-                    let imageId = $(this).attr('image_id')
-                    console.log(imageId)
-
-                    // 정말 사진을 지울건지? 확인
-                    let deleteOk = confirm('정말 해당 사진을 삭제하시겠습니까?')
-
-                    if (deleteOk) {
-                        // 해당 이미지를 삭제 => DELETE => GET과 유사.
-                        axiosInstance.delete('/user_profile_image', {
-                            params: {
-                                'image_id':imageId
-                            }
-                        })
-                        .then(function (res) {
-                            console.log(res)
-                            alert('프사를 삭제 했습니다.')
-                            // 화면 새로고침
-                            location.reload()
-                        })
-                        .catch(function (err) {
-                            console.log(err)
-                        })
-                    }
-
-                    
-                    
-                })
-
-
+                
             })
-            .catch(function (error) {
-                // 실패시 error의 응답에 담긴 message를 얼럿으로
-                alert(error.response.data.message)
-            })
+
 
         </script>
         <script>
