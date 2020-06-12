@@ -57,7 +57,7 @@
 
                     // 하나하나의 프로젝트 모양을 나타내는 li를 변수로 담자.
                     let projectLi = $(`
-                    <li project_id=${project.id}>
+                    <li project_id=${project.id} class='projectLink'>
                         <span>${project.title}</span>
                     </li>
                     `)
@@ -95,7 +95,7 @@
                         // 태그 내에 들어갈 프로젝트를 표현하는 li
 
                         let tagProjectLi = $(`
-                        <li project_id=${project.id}>
+                        <li project_id=${project.id} class='projectLink'>
                             <span>${project.title}</span>
                         </li>
                         `)
@@ -110,6 +110,19 @@
                     $('#tagListUl').append(tagLi)
                     
                 });
+
+
+                // 추가해준 모든 projectLink에게 이벤트 부여
+                $('.projectLink').click(function () {
+
+                    // 어느 프로젝트로 가야하는지?
+                    let projectId = $(this).attr('project_id')
+
+
+                    // 해당 프로젝트 상세 조회로 이동
+                    $(location).attr('href', `project_detail.html?id=${projectId}`)
+
+                })
 
             })
             .catch(function (error) {
