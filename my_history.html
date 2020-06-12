@@ -79,7 +79,55 @@
             </div>
     
         </div>
+
+
+        <div id="container">
+            <h2>내 날짜별 인증 내역</h2>
+            인증 확인 날짜 <input id='date' type="date"> 
+
+            <ul id='proofList'>
+                
+            </ul>
+        </div>
         
+
+        
+        <script>
+
+            // date input의 변경 이벤트
+            $('#date').change(function () {
+
+                // 날짜가 변경되면 해당 날짜의 내 인증 내역을 가져오기
+
+                axiosInstance.get('/my_info', {
+                    params : {
+                        'proof_date' : $('#date').val()
+                    }
+                })
+                .then(function (res) {
+                    console.log(res)
+                })
+                .catch(function (err) {
+                    console.log(err)
+                })
+
+            })
+
+            // 날짜 변경 이벤트가 세팅 되고 나면
+            // 오늘 날짜를 yyyy-MM-dd 양식으로 받아와서
+
+            let now = new Date()
+            let year = now.getFullYear()
+            let month = String(now.getMonth()+1).padStart(2, '0')
+            let day = String(now.getDate()).padStart(2, '0')
+
+            let today = `${year}-${month}-${day}`
+
+            // $('#date') 의 값으로 세팅. => 값이 변경되니까 서버에서 로딩.
+            $('#date').val(today)
+            // 코드로 값을 수정하면 change 이벤트 발생 X. => change 이벤트 강제 실행
+            $('#date').trigger('change')
+        </script>
 
         <script>
             $(function() {
@@ -102,11 +150,8 @@
             })
             .then(function (res) {
                 
-                console.log(res)
 
                 res.data.data.projects.ONGOING.forEach(project => {
-
-                    console.log(project)
 
                     let projectLi = $(`
                     <li project_id=${project.id}>
@@ -123,7 +168,6 @@
                 
                 res.data.data.projects.COMPLETE.forEach(project => {
 
-                    console.log(project)
                     let projectLi = $(`
                     <li project_id=${project.id}>
                         <span>${project.title}</span>
@@ -137,7 +181,6 @@
 
                 res.data.data.projects.FAIL.forEach(project => {
 
-                    console.log(project)
                     let projectLi = $(`
                     <li project_id=${project.id}>
                         <span>${project.title}</span>
