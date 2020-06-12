@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+        
+    </head>
+    <body>
+        검색결과 / 키워드 : <span id='keywordSpan'>??</span>
+
+        <script>
+
+            // 들고온 검색어를 받아서 search API에 전달
+            // 주소창에 적힌 keyword를 변수로 저장.
+
+            // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
+            let searchParams = new URLSearchParams(window.location.search)
+
+            // 주소창에 keyword가 뭐라고 적혀있는지 찾아서 저장.
+            let searchKeyword = searchParams.get('keyword')
+
+            // keywordSpan에 반영
+            $('#keywordSpan').text(searchKeyword)
+
+
+            // 실제 search API를 키워드를 담아서 호출
+            axiosInstance.get('/search', {
+                params: {
+                    'keyword': searchKeyword
+                }
+            })
+            .then(function (res) {
+                console.log(res)
+            })
+            .catch(function (error) {
+                // 실패시 error의 응답에 담긴 message를 얼럿으로
+                alert(error.response.data.message)
+            })
+
+        </script>
+    </body>
+</html>
+
