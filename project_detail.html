@@ -16,6 +16,12 @@
             <span id='title'></span> <span id='userCount'>(현재 참여 인원 : ??명)</span>
         </div>
 
+        <!-- 이 프로젝트가 소속된 태그 목록 -->
+
+        <div id='tagsDiv'>
+
+        </div>
+
         <div id='description'>
 
         </div>
@@ -65,6 +71,20 @@
                 let userCount = res.data.data.project.ongoing_users_count
 
                 $('#userCount').text(`(현재 참여 인원 : ${userCount}명)`)
+
+
+                // 이 프로젝트의 태그 목록을 표시
+
+                res.data.data.project.tags.forEach(tag => {
+
+                    let tagSpan = $(`
+                    <span>#${tag.title}</span>
+                    `)
+
+                    $('#tagsDiv').append(tagSpan)
+                    
+                });
+
 
             })
             .catch(function (error) {
