@@ -64,7 +64,9 @@
 
                 // 추가작업 - 내 프로젝트면 신청 버튼 비활성화
                 let isMyProject = res.data.data.project.is_my_project
-                $('#applyButton').attr('disabled', isMyProject)
+
+                let myLastStatus = res.data.data.project.my_last_status
+                $('#applyButton').attr('disabled', myLastStatus == 'ONGOING')
 
 
                 // 서버에서 추가로 내려주는 참여인원수 확인
