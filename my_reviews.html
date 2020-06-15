@@ -9,8 +9,7 @@
         
     </head>
     <body>
-        리뷰 화면 <span id='nickNameTxt'>닉네임 : ??</span>  <button id='writeReviewBtn'>리뷰 작성하러 가기</button>
-        <button id='my_reviews'>내 후기 모아보기</button>
+        내 리뷰 화면 <span id='nickNameTxt'>닉네임 : ??</span>
 
         <table border="1" id='reviewTable'>
             <thead>
@@ -24,27 +23,16 @@
             </tbody>
         </table>
 
-        페이지번호<input id='pageNum' placeholder="페이지번호" value="1">
-        <button id='loadReviewBtn'>조회</button>
- 
         <script>
 
-            $('#my_reviews').click(function () {
-                location.href = 'my_reviews.html'
-            })
-
-            $('#writeReviewBtn').click(function () {
-                location.href = 'write_review.html'
-            })
-            
             // 리뷰가 총 몇페이지인지 저장할 변수 생성
             let totalPageCount = 0
 
             // 서버에서 리뷰 목록 받아오는 기능을 별도 함수로 분리
             function getReviews(pageNum) {
-                axiosInstance.get('/review', {
+                axiosInstance.get('/my_info', {
                     params: {
-                        'page_num': pageNum
+                        'my_reviews': true
                     }
                 })
                 .then(function (res) {
@@ -57,7 +45,7 @@
                     $('#reviewTable > tbody').empty()
 
                     // 서버에서 주는 리뷰 목록 tr로 추가
-                    res.data.data.reviews.forEach((review, index) => {
+                    res.data.data.my_reviews.forEach((review, index) => {
                         console.log(review)
                         console.log(index)
 
