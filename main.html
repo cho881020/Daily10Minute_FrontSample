@@ -13,12 +13,33 @@
         <button id="myHistoryBtn">나의 참여 내역</button>
         <button id="profileBtn">프로필 수정</button>
         <input id='keywordInput' placeholder="검색어 입력(태그/프로젝트)"><button id="searchBtn">검색</button>
+        <button id="logoutBtn">로그아웃</button>
 
         <ul id='projectList'>
             
         </ul>
 
         <script>
+
+            $('#logoutBtn').click(function() {
+                let logout = confirm('정말 로그아웃 하시겠습니까?')
+
+                if (logout) {
+                    // 앱 : SharedPreferences에 저장된 토큰 삭제 => 로그인 화면 이동
+
+                    // 웹 : Cookie에 저장된 토큰 삭제 + localStorage 에 저장된 사용자데이터 삭제
+                    //  => index.html 로 이동 (잘 삭제됐는지 확인)
+
+                    // 쿠키에 저장된 토큰 삭제
+                    $.removeCookie('userToken')
+
+                    // 로컬스토리지 데이터 삭제
+                    localStorage.removeItem('userInfo')
+
+                    location.href = 'index.html'
+
+                }
+            })
 
             $('#myHistoryBtn').click(function() {
                 location.href = 'my_history.html'
