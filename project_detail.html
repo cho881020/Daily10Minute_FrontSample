@@ -30,6 +30,14 @@
 
         </div>
 
+        <br>
+        <div id='completeInfo'>
+            습관으로 만드는데 성공한 프로젝트입니다! <br><br>
+            총 소요 기간 : <span id='totalDaySpan'>?일</span> <br>
+            인증률 : <span id='proofPercentSpan'>?%</span>
+        </div>
+        <br>
+
         <button id='applyButton'>신청하기</button>
         <button id='proofButton'>인증하기</button>
         <button id='viewProofButton'>다른 사람들의 인증 내역 보러가기</button>
@@ -68,6 +76,28 @@
                 // 서버에서 내려주는 프로젝트 참가 상태 정보로 신청버튼 비활성화
                 let myLastStatus = res.data.data.project.my_last_status
                 $('#applyButton').attr('disabled', myLastStatus == 'ONGOING')
+
+                // 최종상태가 COMPLETE가 아니면 완료 정보 영역 숨김
+                // 맞다고 하면 => 내용을 가공
+                if (myLastStatus != 'COMPLETE') {
+                    $('#completeInfo').hide()
+                }
+                else {
+
+                    // 서버에서 내려주는 소요 일수 표시
+                    let totalDays = res.data.data.project.total_day
+                    $('#totalDaySpan').text(`${totalDays}일`)
+
+                    // 인증률 계산 : 예정완료일수 / 실제소요일수 * 100
+                    let completeDays = res.data.data.project.complete_days
+                    let percent = completeDays / totalDays * 100
+
+                    // 실제 %를 소수점 1자리까지만으로 변경
+                    percent = percent.toFixed(1)
+
+                    $('#proofPercentSpan').text(`${percent}%`)
+
+                }
 
 
                 // 서버에서 추가로 내려주는 참여인원수 확인
