@@ -2,6 +2,7 @@
     <head>
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
         <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
@@ -50,14 +51,18 @@
                 start = new Date(start.getTime() - start.getTimezoneOffset()*60*1000)
                 console.log(start)
 
+
                 let complete = new Date(review.apply.complete_date)
                 complete = new Date(complete.getTime() - complete.getTimezoneOffset()*60*1000)
                 console.log(complete)
 
                 // 완성된 시간 데이터 => yyyy-MM-dd 양식의 String으로 변경
+                let startStr = moment(start).format('YYYY-MM-DD')
+                let completeStr = moment(complete).format('YYYY-MM-DD')
                 
 
-                $('#apply_date').text(`${start} ~ ${complete}`)
+                // String으로 가공된 일자 정보를 출력
+                $('#apply_date').text(`${startStr} ~ ${completeStr}`)
 
                 $('#title').text(review.title)
                 $('#writer_nick').text(review.writer.nick_name)
