@@ -66,7 +66,7 @@
                         let row = $(`
                         <tr review_id=${review.id}>
                             <td>${reviewNum}</td>
-                            <td>${review.title} (참여프로젝트 : 추가예정)</td>
+                            <td>${review.title} (참여프로젝트 : ${review.project.title})</td>
                             <td>${review.writer.nick_name}</td>
                             <td>${year}-${month}-${dayOfMonth}</td>
                         </tr>
@@ -81,6 +81,11 @@
                     // 테이블의 줄이 모두 추가되고 난 후 tr에 클릭 이벤트 추가
                     $('#reviewTable > tbody > tr').click(function () {
                         console.log('클릭된 리뷰 아이디 : ', $(this).attr('review_id'))
+
+                        // 리뷰아이디를 들고 reviewdetail로 이동
+
+                        location.href = `review_detail.html?review_id=${$(this).attr('review_id')}`
+
                     })
 
                     
