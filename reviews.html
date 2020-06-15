@@ -28,6 +28,9 @@
  
         <script>
 
+            // 리뷰가 총 몇페이지인지 저장할 변수 생성
+            let totalPageCount = 0
+
             // 서버에서 리뷰 목록 받아오는 기능을 별도 함수로 분리
             function getReviews(pageNum) {
                 axiosInstance.get('/review', {
@@ -37,6 +40,9 @@
                 })
                 .then(function (res) {
                     console.log(res)
+
+                    // 리뷰가 총 몇페이지인지 실제 저장
+                    totalPageCount = res.data.data.total_page
 
                     // 테이블 내용 지우기
                     $('#reviewTable > tbody').empty()
@@ -84,6 +90,12 @@
             // 조회버튼이 눌리면 해당 페이지에 맞는 목록 불러오기
             $('#loadReviewBtn').click(function() {
                 let pageNum = $('#pageNum').val()
+
+                // 가능한 페이지보다 큰 숫자가 적혀있으면 alert / 강제종료
+                if (pageNum > totalPageCount) {
+                    alert('불러올 수 없는 페이지 숫자 입니다.')
+                    return
+                }
 
                 getReviews(pageNum)
             })
