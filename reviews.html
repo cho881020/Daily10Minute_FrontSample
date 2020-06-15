@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+        
+    </head>
+    <body>
+        리뷰 화면 <span id='nickNameTxt'>닉네임 : ??</span>
+
+        <ul id='reviewList'>
+            
+        </ul>
+
+        <script>
+
+            // localStorage에 저장된 사용자정보 (String) 를 확인.
+            // 저장된 정보를 => JSONObject로 변경 => 화면에 뿌려주기
+
+            // JSON.parse로 String을 JSON으로 변환.
+            // 사용자 정보 객체가 loginUser 에 담겨있게 된다.
+            let loginUser = JSON.parse(localStorage.getItem('userInfo')) 
+
+
+            // 닉네임 반영 처리
+
+            $('#nickNameTxt').text(`닉네임 : ${loginUser.nick_name}`)
+
+
+        </script>
+    </body>
+</html>
+

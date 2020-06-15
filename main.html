@@ -13,6 +13,7 @@
         <button id="myHistoryBtn">나의 참여 내역</button>
         <button id="profileBtn">프로필 수정</button>
         <input id='keywordInput' placeholder="검색어 입력(태그/프로젝트)"><button id="searchBtn">검색</button>
+        <button id="reviewBtn">후기 보러 가기</button>
         <button id="logoutBtn">로그아웃</button>
 
         <ul id='projectList'>
@@ -20,6 +21,10 @@
         </ul>
 
         <script>
+
+            $('#reviewBtn').click(function() {
+                location.href = 'reviews.html'
+            })
 
             $('#logoutBtn').click(function() {
                 let logout = confirm('정말 로그아웃 하시겠습니까?')
