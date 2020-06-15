@@ -43,6 +43,36 @@
                 }
 
             })
+
+            $('#likeBtn').click(function() {
+                // 좋아요를 눌렀다고 서버에 전달.
+
+                // 리뷰 아이디를 담아줄 FomData 생성
+                //  => 미리 주소창에서 얻어낸 리뷰 아이디 변수 활용
+                const form = new FormData()
+                form.append('review_id', reviewId)
+
+                // post => /review_like => form 을 통째로 첨부
+                axiosInstance.post('/review_like', form)
+                .then(function (res) {
+                    console.log(res)
+
+                    alert(res.data.message)
+
+                    let review = res.data.data.review
+
+                    // 갱신된 좋아요 갯수 반영
+                    $('#likeCountSpan').text(`${review.like_count}개`)
+
+                    // 좋아요 / 취소 여부 반영
+                    if (review.is_my_like) {
+                        $('#likeBtn').text('좋아요 취소')
+                    }
+
+
+                })
+            })
+
             
         </script>
     </body>
