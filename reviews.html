@@ -9,7 +9,7 @@
         
     </head>
     <body>
-        리뷰 화면 <span id='nickNameTxt'>닉네임 : ??</span>
+        리뷰 화면 <span id='nickNameTxt'>닉네임 : ??</span>  <button id='writeReviewBtn'>리뷰 작성하러 가기</button>
 
         <table border="1" id='reviewTable'>
             <thead>
@@ -27,6 +27,10 @@
         <button id='loadReviewBtn'>조회</button>
  
         <script>
+
+            $('#writeReviewBtn').click(function () {
+                location.href = 'write_review.html'
+            })
             
             // 리뷰가 총 몇페이지인지 저장할 변수 생성
             let totalPageCount = 0
