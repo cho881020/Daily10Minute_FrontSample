@@ -12,10 +12,15 @@
         리뷰 화면 <span id='nickNameTxt'>닉네임 : ??</span>
 
         <table border="1" id='reviewTable'>
-            <th>번호</th>
-            <th>리뷰 제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
+            <thead>
+                <th>번호</th>
+                <th>리뷰 제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+            </thead>
+            <tbody>
+
+            </tbody>
         </table>
 
         페이지번호<input id='pageNum' placeholder="페이지번호" value="1">
@@ -32,6 +37,9 @@
                 })
                 .then(function (res) {
                     console.log(res)
+
+                    // 테이블 내용 지우기
+                    $('#reviewTable > tbody').empty()
 
                     // 서버에서 주는 리뷰 목록 tr로 추가
                     res.data.data.reviews.forEach((review, index) => {
@@ -58,7 +66,8 @@
                         </tr>
                         `)
 
-                        $('#reviewTable').append(row)
+                        // 테이블 내부의 tbody에 row 추가
+                        $('#reviewTable > tbody').append(row)
 
 
                     });
@@ -71,6 +80,13 @@
 
             // 화면이 로딩 되자마자 서버에 1페이지 리뷰목록 요청
             getReviews(1)
+
+            // 조회버튼이 눌리면 해당 페이지에 맞는 목록 불러오기
+            $('#loadReviewBtn').click(function() {
+                let pageNum = $('#pageNum').val()
+
+                getReviews(pageNum)
+            })
 
 
             // localStorage에 저장된 사용자정보 (String) 를 확인.
