@@ -9,11 +9,40 @@
         
     </head>
     <body>
-        리뷰 상세 내용 조회 => 어떤 리뷰를 보고싶은지 id 전달 필요
+        리뷰 상세 내용 조회 <br> <br> <br>
 
+        제목 : <span id='title'></span> <br>
+        작성자 : <span id='writer_nick'></span> <br>
+        내용 : <span id='content'></span> <br>
+
+
+        <button id='likeBtn'>좋아요</button>   <span id='likeCountSpan'>?개</span>
         
         <script>
-            
+
+            // 주소창 파라미터 분석기 생성
+            let searchParams = new URLSearchParams(window.location.search)
+
+            // 파라미터 중 review_id 에 적힌 값을 변수로 저장
+            let reviewId = searchParams.get('review_id')
+
+            axiosInstance.get(`/review/${reviewId}`)
+            .then(function (res) {
+                console.log(res)
+
+                let review = res.data.data.review
+
+                $('#title').text(review.title)
+                $('#writer_nick').text(review.writer.nick_name)
+                $('#content').text(review.content)
+
+                $('#likeCountSpan').text(`${review.like_count}개`)
+
+                if (review.is_my_like) {
+                    $('#likeBtn').text('좋아요 취소')
+                }
+
+            })
             
         </script>
     </body>
