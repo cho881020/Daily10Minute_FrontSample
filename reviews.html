@@ -44,12 +44,17 @@
 
                         let reviewNum = 10 * (pageNum-1) + index+1
 
+                        // 날짜 데이터 양식 수정
+                        let year = review.created_at.substr(0,4)
+                        let month = review.created_at.substr(5,2)
+                        let dayOfMonth = review.created_at.substr(8,2)
+
                         let row = $(`
                         <tr>
                             <td>${reviewNum}</td>
-                            <td>제목</td>
-                            <td>작성자닉넴</td>
-                            <td>작성일</td>
+                            <td>${review.title} (참여프로젝트 : 추가예정)</td>
+                            <td>${review.writer.nick_name}</td>
+                            <td>${year}-${month}-${dayOfMonth}</td>
                         </tr>
                         `)
 
