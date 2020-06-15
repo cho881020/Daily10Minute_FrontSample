@@ -27,7 +27,7 @@
         <button id='loadReviewBtn'>조회</button>
  
         <script>
-
+            
             // 리뷰가 총 몇페이지인지 저장할 변수 생성
             let totalPageCount = 0
 
@@ -64,7 +64,7 @@
                         let dayOfMonth = review.created_at.substr(8,2)
 
                         let row = $(`
-                        <tr>
+                        <tr review_id=${review.id}>
                             <td>${reviewNum}</td>
                             <td>${review.title} (참여프로젝트 : 추가예정)</td>
                             <td>${review.writer.nick_name}</td>
@@ -77,6 +77,13 @@
 
 
                     });
+
+                    // 테이블의 줄이 모두 추가되고 난 후 tr에 클릭 이벤트 추가
+                    $('#reviewTable > tbody > tr').click(function () {
+                        console.log('클릭된 리뷰 아이디 : ', $(this).attr('review_id'))
+                    })
+
+                    
 
                 })
                 .catch(function (err) {
