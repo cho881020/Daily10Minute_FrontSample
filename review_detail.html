@@ -59,6 +59,20 @@
                 // 완성된 시간 데이터 => yyyy-MM-dd 양식의 String으로 변경
                 let startStr = moment(start).format('YYYY-MM-DD')
                 let completeStr = moment(complete).format('YYYY-MM-DD')
+
+                // 시간을 제거한, 일자만으로 시작/완료 일 재분석 (?일만에 완료한지 계산)
+                let startDate = new Date(startStr)
+                let completeDate = new Date(completeStr)
+
+                // 날짜끼리의 뺄셈을 일단위로 계산  (오늘 포함 + 1)
+                let diffDay = (completeDate - startDate) / 1000 / 60 / 60 / 24 + 1
+                console.log(diffDay)
+
+                // 프로젝트의 완료일자 / 시작일~종료일 날짜 차이로 인증률 직접 계산
+                let proofRate = review.project.complete_days / diffDay * 100
+
+                // toFixed(1)로 소수점 한자리로.
+                $('#proof_rate').text(`${proofRate.toFixed(1)}%`)
                 
 
                 // String으로 가공된 일자 정보를 출력
