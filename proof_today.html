@@ -35,6 +35,10 @@
             .then(function (res) {
                 
                 console.log(res)
+                alert('오늘의 인증을 완료했습니다.')
+                // 프로젝트 상세보기 화면으로 복귀.
+                // 몇번프로젝트를 봐야하는지는 주소에 적혀있던 값 재활용
+                location.href = `project_detail.html?id=${projectId}`
 
             })
             .catch(function (error) {
