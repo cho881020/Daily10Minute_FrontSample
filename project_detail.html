@@ -65,6 +65,7 @@
                 // 추가작업 - 내 프로젝트면 신청 버튼 비활성화
                 let isMyProject = res.data.data.project.is_my_project
 
+                // 서버에서 내려주는 프로젝트 참가 상태 정보로 신청버튼 비활성화
                 let myLastStatus = res.data.data.project.my_last_status
                 $('#applyButton').attr('disabled', myLastStatus == 'ONGOING')
 
