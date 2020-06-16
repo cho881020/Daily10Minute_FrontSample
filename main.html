@@ -14,6 +14,7 @@
         <button id="profileBtn">프로필 수정</button>
         <input id='keywordInput' placeholder="검색어 입력(태그/프로젝트)"><button id="searchBtn">검색</button>
         <button id="reviewBtn">후기 보러 가기</button>
+        <button id="notificationBtn">안 읽은 알림 : ?개</button>
         <button id="logoutBtn">로그아웃</button>
 
         <ul id='projectList'>
@@ -86,6 +87,31 @@
 
             // 메인 화면 접속 하자마자 쿠키에 저장된 토큰 확인
             console.log('메인에서의 쿠키 : ', $.cookie('userToken'))
+
+            // 알림 목록 가져오기
+            
+            axiosInstance.get('/notification')
+            .then(function (res) {
+                console.log('알림 내역 : ', res)
+
+                let notiCount = res.data.data.unread_noty_count
+
+                // 새 알림 없는 경우
+                if (notiCount == 0) {
+                    // 버튼 문구 : 모든 알림 확인 완료
+                    $('#notificationBtn').text("모든 알림 확인 완료")
+                }
+                else {
+                    $('#notificationBtn').text(`안 읽은 알림 : ${notiCount}개`)
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error)
+                // 알림 목록 가져오기 실패 => 로그인에 문제가 있다. (비로그인)
+                // 비 로그인시 알림버튼 숨기기
+                $('notificaionBtn').hide()
+            }) 
 
             // POST/PUT은 FormData를 쓰지만
             // GET은 직접 params로 필요한걸 적자
