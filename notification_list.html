@@ -21,6 +21,34 @@
             
             axiosInstance.get('/notification')
             .then(function (res) {
+
+                // 맨 앞의 알림 : 제일 최신 알림.
+                // 이 알림까지는 읽었다고 서버에 전달
+
+                // 예외로 알림이 아직 한번도 없는 경우는 배제
+                if (res.data.data.notifications.length > 0) {
+
+                    // 받은 알림 내역중 제일 최신 (맨 위) 알림의 id 추출
+                    let lastNotiId = res.data.data.notifications[0].id
+                    console.log('최신 알림 id : ', lastNotiId)
+
+                    // 서버에게 이 id값을 전달
+
+                    let form = new FormData()
+                    form.append('noti_id', lastNotiId)
+
+                    // 이 값을 서버에 던지면 => 서버가 알아서 여기까지 다 읽은걸로 변경처리.
+                    axiosInstance.post('/notification', form)
+                    .then(function (res) {
+
+                    })
+                    .catch(function (error) {
+
+                    })
+                    
+                }
+                
+
                 res.data.data.notifications.forEach(noti => {
 
                     console.log(noti)
