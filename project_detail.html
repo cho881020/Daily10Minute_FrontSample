@@ -82,6 +82,10 @@
                 $('#giveUpButton').attr('disabled', myLastStatus != 'ONGOING')
                 
 
+                // 인증하기 버튼 비활성화 결정 => 오늘의 인증 여부에 따라 움직인다.
+                // 오늘의 인증 내용
+                let myTodayProof = res.data.data.project.my_today_proof
+                $('#proofButton').attr('disabled', myTodayProof != null)
 
                 // 최종상태가 COMPLETE가 아니면 완료 정보 영역 숨김
                 // 맞다고 하면 => 내용을 가공
