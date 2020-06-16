@@ -132,6 +132,27 @@
             })
 
 
+            // 중도 포기 이벤트
+            $('#giveUpButton').click(function() {
+                let giveUp = confirm('정말 포기하시겠습니까?')
+
+                if (giveUp) {
+                    axiosInstance.delete('/project', {
+                        params: {
+                            'project_id' : projectId
+                        }
+                    })
+                    .then(function (res) {
+                        console.log(res)
+                        alert('프로젝트 참여를 포기했습니다.')
+                        location.reload()
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+                }
+            })
+
             // 완료 인증 내역 확인
             $('#completeProofsBtn').click(function() {
                 location.href = `complete_project_proofs.html?project_id=${projectId}`
