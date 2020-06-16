@@ -24,6 +24,43 @@
             // 주소창에 project_id가 뭐라고 적혀있는지 찾아서 저장.
             let projectId = searchParams.get('project_id')
 
+            // 프로젝트 상세 정보 조회 => 완료 인증내역 가져오기
+
+            axiosInstance.get(`/project/${projectId}`)
+            .then(function (res) {
+                console.log(res)
+
+                res.data.data.project.complete_proofs.forEach(proof => {
+
+                    console.log(proof)
+
+                    let proofLi = $(`
+                    <li>
+                        <span>${proof.content}</span> <span id='proofInfo'>(회차 / 일자)</span>
+                    </li>
+                    `)
+
+                    proof.images.forEach(image => {
+
+                        console.log(image)
+
+                        let imgTag = $(`
+                        <img class='proofImgItem' src=${image.img_url}>
+                        `)
+
+                        // 인증내역 li에 이미지 추가
+                        proofLi.append(imgTag)
+                        
+                    });
+
+                    $('#proofList').append(proofLi)
+                    
+                });
+            })
+            .catch(function (error) {
+
+            })
+
 
         </script>
 
