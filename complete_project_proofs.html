@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+        
+    </head>
+    <body>
+
+        <ul id='proofList'>
+            
+        </ul>
+
+        <script>
+            
+            // 몇번 프로젝트를 보러 온건지 주소창 확인
+            
+            // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
+            let searchParams = new URLSearchParams(window.location.search)
+            // 주소창에 project_id가 뭐라고 적혀있는지 찾아서 저장.
+            let projectId = searchParams.get('project_id')
+
+
+        </script>
+
+    </body>
+</html>
+

@@ -34,7 +34,7 @@
         <div id='completeInfo'>
             습관으로 만드는데 성공한 프로젝트입니다! <br><br>
             총 소요 기간 : <span id='totalDaySpan'>?일</span> <br>
-            인증률 : <span id='proofPercentSpan'>?%</span>
+            인증률 : <span id='proofPercentSpan'>?%</span> <button id='completeProofsBtn'>인증한 내역 확인</button>
         </div>
         <br>
 
@@ -125,6 +125,11 @@
                 alert(error.response.data.message)
             })
 
+
+            // 완료 인증 내역 확인
+            $('#completeProofsBtn').click(function() {
+                location.href = `complete_project_proofs.html?project_id=${projectId}`
+            })
 
             // 사용자목록보기를 누르면
             $('#userListBtn').click(function() {
