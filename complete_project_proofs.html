@@ -1,6 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
         <script src="https://code.jquery.com/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
@@ -64,9 +65,14 @@
                     // 시간값을 계산할때는 ms 초 단위로 계산해줘야함. => 분*60초*1000밀리초 해서 계산
                     console.log(proofTime)
 
+                    // 완성된 proofTime의 양식을 가공. (2020년 6월 10일 오후 4시 30분)
+                    // 라이브러리 활용해서 가공. => moment 라이브러리.
+
+                    let formatedTime = moment(proofTime).format('YYYY년 M월 D일 a h시 m분')
+
                     let proofLi = $(`
                     <li>
-                        <span>${proof.content}</span> <span id='proofInfo'>(${index+1}회차 / ${proofTime})</span>
+                        <span>${proof.content}</span> <span id='proofInfo'>(${index+1}회차 / ${formatedTime})</span>
                     </li>
                     `)
 
