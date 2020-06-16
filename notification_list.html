@@ -55,6 +55,13 @@
                     // 리뷰화면?
                     else if (gotoUi == 'ReviewDetail') {
 
+                        // target_id 에 적힌값을 리뷰의 id로 활용
+                        let reviewId = $(this).attr('target_id')
+
+                        // 해당 리뷰 화면으로 이동
+                        location.href = `review_detail.html?review_id=${reviewId}`
+
+
                     }
                     else {
                         alert('잘못된 접근입니다.')
