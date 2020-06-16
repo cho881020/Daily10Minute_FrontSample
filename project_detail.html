@@ -39,6 +39,7 @@
         <br>
 
         <button id='applyButton'>신청하기</button>
+        <button id='giveUpButton'>중도 포기하기</button>
         <button id='proofButton'>인증하기</button>
         <button id='viewProofButton'>다른 사람들의 인증 내역 보러가기</button>
         
@@ -76,6 +77,11 @@
                 // 서버에서 내려주는 프로젝트 참가 상태 정보로 신청버튼 비활성화
                 let myLastStatus = res.data.data.project.my_last_status
                 $('#applyButton').attr('disabled', myLastStatus == 'ONGOING')
+
+                // 포기하기 버튼은 ONGOING 상태가 아닐때 비활성화
+                $('#giveUpButton').attr('disabled', myLastStatus != 'ONGOING')
+                
+
 
                 // 최종상태가 COMPLETE가 아니면 완료 정보 영역 숨김
                 // 맞다고 하면 => 내용을 가공
