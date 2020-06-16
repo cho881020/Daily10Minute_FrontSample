@@ -30,13 +30,17 @@
             .then(function (res) {
                 console.log(res)
 
-                res.data.data.project.complete_proofs.forEach(proof => {
+                // ?회차 얻는 방법? foreach를 돌때 index도 얻는 방법.
+                //  foreach의 재료로 (꺼내오는변수, 인덱스변수)  를 집어넣자.
 
+                res.data.data.project.complete_proofs.forEach((proof, index) => {
+
+                    console.log(index)
                     console.log(proof)
 
                     let proofLi = $(`
                     <li>
-                        <span>${proof.content}</span> <span id='proofInfo'>(회차 / 일자)</span>
+                        <span>${proof.content}</span> <span id='proofInfo'>(${index+1}회차 / 일자)</span>
                     </li>
                     `)
 
