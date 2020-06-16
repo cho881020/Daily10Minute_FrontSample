@@ -38,9 +38,35 @@
                     console.log(index)
                     console.log(proof)
 
+                    // 일자 : proof 에 proof_time으로 인증 일/시가 적혀있다.
+                    // 문제 : 서버에서 내려주는 시간이 UTC (영국시간) 이라, 9시간 느리게 나온다.
+                    // 해결방안 : 서버에서 한국시간으로 바꿔서 내리자 Vs. 프론트에서 한국시간으로 계산해서 보여주자
+                    // 선택 : 후자 => 내 기기의 시간정보를 가져와야 => 나에게 맞는 시간으로 보여주기 때문. => 보는 사람에 따라 각자에게 편한 시간대를 제공.
+
+                    // proof.proof_time : String => Date 형태로 변환.
+
+                    let proofTime = new Date(proof.proof_time)
+
+                    // 컴퓨터의 시간대 (Timezone) 정보가 같이 기록됨.
+                    console.log(proofTime) 
+
+                    // 시간대 : 한국, 시차 : 영국 => 시차도 한국시간으로 계산필요
+
+                    // 한국시간대가 => 표준시간으로 부터 얼마나 격차(offset) 가 있는지?
+                    // 확인 결과 -540 격차 : 540 = 9*60 = 9시간만큼 빠르다. => 9시간을 더해줘야 함.
+                    
+                    console.log(proofTime.getTimezoneOffset())
+
+                    // 인증시간에서 시차를 감안한 시간으로 다시 만들어서 대입.
+                    proofTime = new Date(proofTime - proofTime.getTimezoneOffset()*60*1000)
+
+                    // getTimezoneOffset : 몇분 차이가 나는지 알려줌.
+                    // 시간값을 계산할때는 ms 초 단위로 계산해줘야함. => 분*60초*1000밀리초 해서 계산
+                    console.log(proofTime)
+
                     let proofLi = $(`
                     <li>
-                        <span>${proof.content}</span> <span id='proofInfo'>(${index+1}회차 / 일자)</span>
+                        <span>${proof.content}</span> <span id='proofInfo'>(${index+1}회차 / ${proofTime})</span>
                     </li>
                     `)
 
