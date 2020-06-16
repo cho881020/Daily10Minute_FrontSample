@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+        <script src="/custom_axios.js"></script>
+        
+    </head>
+    <body>
+        알림 목록 화면 (최신 50개의 알림만 지원됩니다.)
+
+        <ul id='notificationList'>
+            
+        </ul>
+
+        <script>
+
+            // 알림 목록 가져오기
+            
+            axiosInstance.get('/notification')
+            .then(function (res) {
+                res.data.data.notifications.forEach(noti => {
+
+                    console.log(noti)
+
+                    // li에 기록 사항 : 누르면어느화면?goto_ui, 알림이달린이유?noti_type, 눌렀을때 몇번을 보러 가야하는지?target_id
+                    let notiItem = $(`
+                    <li target_id=${noti.focus_object_id} noti_type=${noti.type} goto_ui=${noti.reference_ui}>
+                        ${noti.title}
+                    </li>
+                    `)
+
+                    $('#notificationList').append(notiItem)
+                    
+                });
+
+                // 알림 목록 각각 눌린 이벤트
+                $('#notificationList li').click(function () {
+                    
+                    // 어느화면으로?
+                    let gotoUi = $(this).attr('goto_ui')
+
+                    // 인증화면?
+                    if (gotoUi == 'ProofDetail') {
+
+                        // target_id 에 적혀있는 값을 인증 id로 활용
+                        let proofId = $(this).attr('target_id')
+
+                        // 해당 인증 상세 화면으로 이동 => 인증 id만 가공
+                        location.href = `view_proof.html?proof_id=${proofId}`
+
+                    }
+                    // 리뷰화면?
+                    else if (gotoUi == 'ReviewDetail') {
+
+                    }
+                    else {
+                        alert('잘못된 접근입니다.')
+                    }
+
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error)
+            }) 
+
+            
+        </script>
+    </body>
+</html>
+
