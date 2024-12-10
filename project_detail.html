@@ -1,223 +1,206 @@
 <html>
-    <head>
-        <script src="https://code.jquery.com/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-        <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
-        <script src="/custom_axios.js"></script>
-        
-    </head>
-    <body>
-        프로젝트 상세 정보 화면
+  <head>
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <!-- 커스터마이징한 axiosInstace 들고있는 파일 -->
+    <script src="/custom_axios.js"></script>
+  </head>
+  <body>
+    프로젝트 상세 정보 화면
 
-        <img id='projectImg' style="height: 30%; width: 100%;">
+    <!-- 상세정보 커밋 1 용 -->
 
-        <div>
-            <span id='title'></span> <span id='userCount'>(현재 참여 인원 : ??명)</span>
-        </div>
+    <img id="projectImg" style="height: 30%; width: 100%" />
 
-        <!-- 이 프로젝트가 소속된 태그 목록 -->
+    <div>
+      <span id="title"></span>
+      <span id="userCount">(현재 참여 인원 : ??명)</span>
+    </div>
 
-        <div id='tagsDiv'>
+    <!-- 이 프로젝트가 소속된 태그 목록 -->
 
-        </div>
+    <div id="tagsDiv"></div>
 
-        <div id='description'>
+    <div id="description"></div>
 
-        </div>
+    <div id="proofMethod"></div>
 
-        <div id='proofMethod'>
+    <br />
+    <div id="completeInfo">
+      습관으로 만드는데 성공한 프로젝트입니다! <br /><br />
+      총 소요 기간 : <span id="totalDaySpan">?일</span> <br />
+      인증률 : <span id="proofPercentSpan">?%</span>
+      <button id="completeProofsBtn">인증한 내역 확인</button>
+    </div>
+    <br />
 
-        </div>
+    <button id="applyButton">신청하기</button>
+    <button id="giveUpButton">중도 포기하기</button>
+    <button id="proofButton">인증하기</button>
+    <button id="viewProofButton">다른 사람들의 인증 내역 보러가기</button>
 
-        <br>
-        <div id='completeInfo'>
-            습관으로 만드는데 성공한 프로젝트입니다! <br><br>
-            총 소요 기간 : <span id='totalDaySpan'>?일</span> <br>
-            인증률 : <span id='proofPercentSpan'>?%</span> <button id='completeProofsBtn'>인증한 내역 확인</button>
-        </div>
-        <br>
+    <button id="userListBtn">참여중인 사람들 보기</button>
 
-        <button id='applyButton'>신청하기</button>
-        <button id='giveUpButton'>중도 포기하기</button>
-        <button id='proofButton'>인증하기</button>
-        <button id='viewProofButton'>다른 사람들의 인증 내역 보러가기</button>
-        
-        <button id='userListBtn'>참여중인 사람들 보기</button>
+    <script>
+      // 몇번 프로젝트를 보러 온건지 주소창 확인
 
-        <script>
-            
-            // 몇번 프로젝트를 보러 온건지 주소창 확인
-            
-            // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
-            let searchParams = new URLSearchParams(window.location.search)
-            // 주소창에 id가 뭐라고 적혀있는지 찾아서 저장.
-            let projectId = searchParams.get('id')
+      // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
+      let searchParams = new URLSearchParams(window.location.search);
+      // 주소창에 id가 뭐라고 적혀있는지 찾아서 저장.
+      let projectId = searchParams.get("id");
 
-            // 프로젝트 상세조회 API 호출 => /project/1  와 같이 주소에 id를 이어붙이자.
-            axiosInstance.get(`/project/${projectId}`, {
-                params: {
-                    // project에선 아직 첨부할 자료가 없어서 비워둔다
-                }
+      // 프로젝트 상세조회 API 호출 => /project/1  와 같이 주소에 id를 이어붙이자.
+      axiosInstance
+        .get(`/project/${projectId}`, {
+          params: {
+            // project에선 아직 첨부할 자료가 없어서 비워둔다
+          },
+        })
+        .then(function (res) {
+          console.log(res);
+
+          // 프로젝트의 정보를 화면에 반영
+          $("#title").text(res.data.data.project.title);
+          $("#description").text(res.data.data.project.description);
+          $("#proofMethod").text(res.data.data.project.proof_method);
+
+          $("#projectImg").attr("src", res.data.data.project.img_url);
+
+          // 추가작업 - 내 프로젝트면 신청 버튼 비활성화
+          let isMyProject = res.data.data.project.is_my_project;
+
+          // 서버에서 내려주는 프로젝트 참가 상태 정보로 신청버튼 비활성화
+          let myLastStatus = res.data.data.project.my_last_status;
+          $("#applyButton").attr("disabled", myLastStatus == "ONGOING");
+
+          // 포기하기 버튼은 ONGOING 상태가 아닐때 비활성화
+          $("#giveUpButton").attr("disabled", myLastStatus != "ONGOING");
+
+          // 인증하기 버튼 비활성화 결정 => 오늘의 인증 여부에 따라 움직인다.
+          // 오늘의 인증 내용
+          let myTodayProof = res.data.data.project.my_today_proof;
+          $("#proofButton").attr("disabled", myTodayProof != null);
+
+          // 최종상태가 COMPLETE가 아니면 완료 정보 영역 숨김
+          // 맞다고 하면 => 내용을 가공
+          if (myLastStatus != "COMPLETE") {
+            $("#completeInfo").hide();
+          } else {
+            // 서버에서 내려주는 소요 일수 표시
+            let totalDays = res.data.data.project.total_day;
+            $("#totalDaySpan").text(`${totalDays}일`);
+
+            // 인증률 계산 : 예정완료일수 / 실제소요일수 * 100
+            let completeDays = res.data.data.project.complete_days;
+            let percent = (completeDays / totalDays) * 100;
+
+            // 실제 %를 소수점 1자리까지만으로 변경
+            percent = percent.toFixed(1);
+
+            $("#proofPercentSpan").text(`${percent}%`);
+          }
+
+          // 서버에서 추가로 내려주는 참여인원수 확인
+          let userCount = res.data.data.project.ongoing_users_count;
+
+          $("#userCount").text(`(현재 참여 인원 : ${userCount}명)`);
+
+          // 이 프로젝트의 태그 목록을 표시
+
+          res.data.data.project.tags.forEach((tag) => {
+            let tagSpan = $(`
+                    <span>#${tag.title}</span>
+                    `);
+
+            $("#tagsDiv").append(tagSpan);
+          });
+        })
+        .catch(function (error) {
+          // 실패시 error의 응답에 담긴 message를 얼럿으로
+          alert(error.response.data.message);
+        });
+
+      // 중도 포기 이벤트
+      $("#giveUpButton").click(function () {
+        let giveUp = confirm("정말 포기하시겠습니까?");
+
+        if (giveUp) {
+          axiosInstance
+            .delete("/project", {
+              params: {
+                project_id: projectId,
+              },
             })
             .then(function (res) {
-
-                console.log(res)
-                
-                // 프로젝트의 정보를 화면에 반영
-                $('#title').text(res.data.data.project.title)
-                $('#description').text(res.data.data.project.description)
-                $('#proofMethod').text(res.data.data.project.proof_method)
-
-                $('#projectImg').attr('src', res.data.data.project.img_url)
-
-                // 추가작업 - 내 프로젝트면 신청 버튼 비활성화
-                let isMyProject = res.data.data.project.is_my_project
-
-                // 서버에서 내려주는 프로젝트 참가 상태 정보로 신청버튼 비활성화
-                let myLastStatus = res.data.data.project.my_last_status
-                $('#applyButton').attr('disabled', myLastStatus == 'ONGOING')
-
-                // 포기하기 버튼은 ONGOING 상태가 아닐때 비활성화
-                $('#giveUpButton').attr('disabled', myLastStatus != 'ONGOING')
-                
-
-                // 인증하기 버튼 비활성화 결정 => 오늘의 인증 여부에 따라 움직인다.
-                // 오늘의 인증 내용
-                let myTodayProof = res.data.data.project.my_today_proof
-                $('#proofButton').attr('disabled', myTodayProof != null)
-
-                // 최종상태가 COMPLETE가 아니면 완료 정보 영역 숨김
-                // 맞다고 하면 => 내용을 가공
-                if (myLastStatus != 'COMPLETE') {
-                    $('#completeInfo').hide()
-                }
-                else {
-
-                    // 서버에서 내려주는 소요 일수 표시
-                    let totalDays = res.data.data.project.total_day
-                    $('#totalDaySpan').text(`${totalDays}일`)
-
-                    // 인증률 계산 : 예정완료일수 / 실제소요일수 * 100
-                    let completeDays = res.data.data.project.complete_days
-                    let percent = completeDays / totalDays * 100
-
-                    // 실제 %를 소수점 1자리까지만으로 변경
-                    percent = percent.toFixed(1)
-
-                    $('#proofPercentSpan').text(`${percent}%`)
-
-                }
-
-
-                // 서버에서 추가로 내려주는 참여인원수 확인
-                let userCount = res.data.data.project.ongoing_users_count
-
-                $('#userCount').text(`(현재 참여 인원 : ${userCount}명)`)
-
-
-                // 이 프로젝트의 태그 목록을 표시
-
-                res.data.data.project.tags.forEach(tag => {
-
-                    let tagSpan = $(`
-                    <span>#${tag.title}</span>
-                    `)
-
-                    $('#tagsDiv').append(tagSpan)
-                    
-                });
-
-
+              console.log(res);
+              alert("프로젝트 참여를 포기했습니다.");
+              location.reload();
             })
             .catch(function (error) {
-                // 실패시 error의 응답에 담긴 message를 얼럿으로
-                alert(error.response.data.message)
-            })
+              console.log(error);
+            });
+        }
+      });
 
+      // 완료 인증 내역 확인
+      $("#completeProofsBtn").click(function () {
+        location.href = `complete_project_proofs.html?project_id=${projectId}`;
+      });
 
-            // 중도 포기 이벤트
-            $('#giveUpButton').click(function() {
-                let giveUp = confirm('정말 포기하시겠습니까?')
+      // 사용자목록보기를 누르면
+      $("#userListBtn").click(function () {
+        // 미리 저장해둔 프로젝트 id값을 들고
+        // 사용자 목록 화면으로 이동
 
-                if (giveUp) {
-                    axiosInstance.delete('/project', {
-                        params: {
-                            'project_id' : projectId
-                        }
-                    })
-                    .then(function (res) {
-                        console.log(res)
-                        alert('프로젝트 참여를 포기했습니다.')
-                        location.reload()
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
-                }
-            })
+        $(location).attr("href", `user_list.html?project_id=${projectId}`);
+      });
 
-            // 완료 인증 내역 확인
-            $('#completeProofsBtn').click(function() {
-                location.href = `complete_project_proofs.html?project_id=${projectId}`
-            })
+      // 인증하기 버튼을 누르면
+      $("#proofButton").click(function () {
+        // 미리 받아둔 프로젝트 id를 들고 인증하기 화면으로 이동
+        $(location).attr("href", `proof_today.html?project_id=${projectId}`);
+      });
 
-            // 사용자목록보기를 누르면
-            $('#userListBtn').click(function() {
-                // 미리 저장해둔 프로젝트 id값을 들고
-                // 사용자 목록 화면으로 이동
+      // 인증 내역 보러 가기 버튼 이벤트
+      $("#viewProofButton").click(function () {
+        // 미리 받아둔 프로젝트 id를 가지고 인증내역 보는 화면 이동.
+        $(location).attr(
+          "href",
+          `view_project_proof.html?project_id=${projectId}`
+        );
+      });
+    </script>
 
-                $(location).attr('href', `user_list.html?project_id=${projectId}`)
+    <script>
+      // 신청 버튼 눌리면 할 일
+      $("#applyButton").click(function () {
+        // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
+        let searchParams = new URLSearchParams(window.location.search);
+        // 주소창에 id가 뭐라고 적혀있는지 찾아서 저장.
+        let projectId = searchParams.get("id");
 
-            })
+        // 프로젝트 참여 신청 API 호출
 
-            // 인증하기 버튼을 누르면
-            $('#proofButton').click(function() {
-                // 미리 받아둔 프로젝트 id를 들고 인증하기 화면으로 이동
-                $(location).attr('href', `proof_today.html?project_id=${projectId}`)
-            })
+        // post로 보낼때 첨부할 FormData
+        const form = new FormData();
+        form.append("project_id", projectId);
 
-            // 인증 내역 보러 가기 버튼 이벤트
-            $('#viewProofButton').click(function() {
-                // 미리 받아둔 프로젝트 id를 가지고 인증내역 보는 화면 이동.
-                $(location).attr('href', `view_project_proof.html?project_id=${projectId}`)
-            })
+        // /project - POST로 접근
+        axiosInstance
+          .post(`/project`, form)
+          .then(function (res) {
+            // 응답 로그 확인
+            console.log(res);
 
-        </script>
-
-        <script>
-            // 신청 버튼 눌리면 할 일
-            $('#applyButton').click(function() {
-
-                // 주소창의 데이터를 분석해주는 클래스를 변수에 담자.
-                let searchParams = new URLSearchParams(window.location.search)
-                // 주소창에 id가 뭐라고 적혀있는지 찾아서 저장.
-                let projectId = searchParams.get('id')
-
-                // 프로젝트 참여 신청 API 호출
-
-                // post로 보낼때 첨부할 FormData
-                const form = new FormData()
-                form.append('project_id', projectId)
-
-                // /project - POST로 접근
-                axiosInstance.post(`/project`, form)
-                .then(function (res) {
-                    
-                    // 응답 로그 확인
-                    console.log(res)
-
-                    alert('신청이 완료 되었습니다.')
-                    location.reload()
-
-                })
-                .catch(function (error) {
-                    // 실패시 error의 응답에 담긴 message를 얼럿으로
-                    alert(error.response.data.message)
-                })
-
-            })
-        </script>
-    </body>
+            alert("신청이 완료 되었습니다.");
+            location.reload();
+          })
+          .catch(function (error) {
+            // 실패시 error의 응답에 담긴 message를 얼럿으로
+            alert(error.response.data.message);
+          });
+      });
+    </script>
+  </body>
 </html>
-
